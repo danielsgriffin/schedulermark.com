@@ -1,0 +1,56 @@
+=== Benchmark Run Started: 2025-11-20T17:37:19.401Z ===
+
+[2025-11-20T17:37:19.403Z] Logging to logs/benchmark-2025-11-20T17-37-19-401Z.log
+[2025-11-20T17:37:19.403Z] Wrote meta prompt info to data/meta.json
+[2025-11-20T17:37:19.406Z] Loaded 48 existing critiques; will skip those judge pairs.
+[2025-11-20T17:37:19.406Z] === SOLVER PHASE (Bun) ===
+[2025-11-20T17:37:19.407Z] [1/8] Skipping google/gemini-3-pro-preview, solution already exists at solutions/google_gemini-3-pro-preview.html
+[2025-11-20T17:37:19.407Z] [2/8] Skipping anthropic/claude-sonnet-4.5, solution already exists at solutions/anthropic_claude-sonnet-4.5.html
+[2025-11-20T17:37:19.408Z] [3/8] Skipping openai/gpt-5.1, solution already exists at solutions/openai_gpt-5.1.html
+[2025-11-20T17:37:19.408Z] [4/8] Skipping anthropic/claude-opus-4.1, solution already exists at solutions/anthropic_claude-opus-4.1.html
+[2025-11-20T17:37:19.409Z] [5/8] Skipping x-ai/grok-4, solution already exists at solutions/x-ai_grok-4.html
+[2025-11-20T17:37:19.409Z] [6/8] Skipping qwen/qwen3-max, solution already exists at solutions/qwen_qwen3-max.html
+[2025-11-20T17:37:19.409Z] [7/8] Skipping openai/gpt-5.1-codex, solution already exists at solutions/openai_gpt-5.1-codex.html
+[2025-11-20T17:37:19.410Z] [8/8] Skipping moonshotai/kimi-k2-thinking, solution already exists at solutions/moonshotai_kimi-k2-thinking.html
+[2025-11-20T17:37:19.410Z] 
+=== JUDGE PHASE (Bun) ===
+[2025-11-20T17:37:19.410Z] [1/64] Skipping already-judged pair google/gemini-3-pro-preview|google/gemini-3-pro-preview
+[2025-11-20T17:37:19.411Z] [2/64] Skipping already-judged pair google/gemini-3-pro-preview|anthropic/claude-sonnet-4.5
+[2025-11-20T17:37:19.411Z] [3/64] Skipping already-judged pair google/gemini-3-pro-preview|openai/gpt-5.1
+[2025-11-20T17:37:19.411Z] [4/64] Skipping already-judged pair google/gemini-3-pro-preview|anthropic/claude-opus-4.1
+[2025-11-20T17:37:19.411Z] [5/64] Skipping already-judged pair google/gemini-3-pro-preview|x-ai/grok-4
+[2025-11-20T17:37:19.411Z] [6/64] Skipping already-judged pair google/gemini-3-pro-preview|qwen/qwen3-max
+[2025-11-20T17:37:19.411Z] [7/64] Skipping already-judged pair google/gemini-3-pro-preview|openai/gpt-5.1-codex
+[2025-11-20T17:37:19.411Z] [8/64] Skipping already-judged pair google/gemini-3-pro-preview|moonshotai/kimi-k2-thinking
+[2025-11-20T17:37:19.411Z] [9/64] Skipping already-judged pair anthropic/claude-sonnet-4.5|google/gemini-3-pro-preview
+[2025-11-20T17:37:19.411Z] [10/64] Skipping already-judged pair anthropic/claude-sonnet-4.5|anthropic/claude-sonnet-4.5
+[2025-11-20T17:37:19.412Z] [11/64] Skipping already-judged pair anthropic/claude-sonnet-4.5|openai/gpt-5.1
+[2025-11-20T17:37:19.412Z] [12/64] Skipping already-judged pair anthropic/claude-sonnet-4.5|anthropic/claude-opus-4.1
+[2025-11-20T17:37:19.412Z] [13/64] Skipping already-judged pair anthropic/claude-sonnet-4.5|x-ai/grok-4
+[2025-11-20T17:37:19.412Z] [14/64] Skipping already-judged pair anthropic/claude-sonnet-4.5|qwen/qwen3-max
+[2025-11-20T17:37:19.412Z] [15/64] Skipping already-judged pair anthropic/claude-sonnet-4.5|openai/gpt-5.1-codex
+[2025-11-20T17:37:19.412Z] [16/64] Skipping already-judged pair anthropic/claude-sonnet-4.5|moonshotai/kimi-k2-thinking
+[2025-11-20T17:37:19.412Z] [17/64] Skipping already-judged pair openai/gpt-5.1|google/gemini-3-pro-preview
+[2025-11-20T17:37:19.412Z] [18/64] Skipping already-judged pair openai/gpt-5.1|anthropic/claude-sonnet-4.5
+[2025-11-20T17:37:19.412Z] [19/64] Skipping already-judged pair openai/gpt-5.1|openai/gpt-5.1
+[2025-11-20T17:37:19.413Z] [20/64] Skipping already-judged pair openai/gpt-5.1|anthropic/claude-opus-4.1
+[2025-11-20T17:37:19.413Z] [21/64] Skipping already-judged pair openai/gpt-5.1|x-ai/grok-4
+[2025-11-20T17:37:19.413Z] [22/64] Skipping already-judged pair openai/gpt-5.1|qwen/qwen3-max
+[2025-11-20T17:37:19.413Z] [23/64] Skipping already-judged pair openai/gpt-5.1|openai/gpt-5.1-codex
+[2025-11-20T17:37:19.413Z] [24/64] Skipping already-judged pair openai/gpt-5.1|moonshotai/kimi-k2-thinking
+[2025-11-20T17:37:19.413Z] [25/64] Skipping already-judged pair anthropic/claude-opus-4.1|google/gemini-3-pro-preview
+[2025-11-20T17:37:19.413Z] [26/64] Skipping already-judged pair anthropic/claude-opus-4.1|anthropic/claude-sonnet-4.5
+[2025-11-20T17:37:19.413Z] [27/64] Skipping already-judged pair anthropic/claude-opus-4.1|openai/gpt-5.1
+[2025-11-20T17:37:19.413Z] [28/64] Skipping already-judged pair anthropic/claude-opus-4.1|anthropic/claude-opus-4.1
+[2025-11-20T17:37:19.413Z] [29/64] Skipping already-judged pair anthropic/claude-opus-4.1|x-ai/grok-4
+[2025-11-20T17:37:19.414Z] [30/64] Skipping already-judged pair anthropic/claude-opus-4.1|qwen/qwen3-max
+[2025-11-20T17:37:19.414Z] [31/64] Skipping already-judged pair anthropic/claude-opus-4.1|openai/gpt-5.1-codex
+[2025-11-20T17:37:19.414Z] [32/64] Skipping already-judged pair anthropic/claude-opus-4.1|moonshotai/kimi-k2-thinking
+[2025-11-20T17:37:19.414Z] [33/64] Skipping already-judged pair x-ai/grok-4|google/gemini-3-pro-preview
+[2025-11-20T17:37:19.414Z] [34/64] Skipping already-judged pair x-ai/grok-4|anthropic/claude-sonnet-4.5
+[2025-11-20T17:37:19.415Z] [35/64] Skipping already-judged pair x-ai/grok-4|openai/gpt-5.1
+[2025-11-20T17:37:19.415Z] [36/64] Skipping already-judged pair x-ai/grok-4|anthropic/claude-opus-4.1
+[2025-11-20T17:37:19.415Z] [37/64] Skipping already-judged pair x-ai/grok-4|x-ai/grok-4
+[2025-11-20T17:37:19.415Z] [38/64] Skipping already-judged pair x-ai/grok-4|qwen/qwen3-max
+[2025-11-20T17:37:19.415Z] [39/64] Skipping already-judged pair x-ai/grok-4|openai/gpt-5.1-codex
+[2025-11-20T17:37:19.415Z] [40/64] Judge moonshotai/kimi-k2-thinking reviewing solution from x-ai/grok-4...

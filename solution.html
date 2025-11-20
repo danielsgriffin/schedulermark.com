@@ -27,7 +27,7 @@
       }
       iframe {
         width: 100%;
-        min-height: 400px;
+        min-height: 600px;
         border: 1px solid #ddd;
         border-radius: 4px;
         background: white;
@@ -164,6 +164,41 @@
         border-color: #111827;
         font-weight: 600;
       }
+
+      .fullscreen-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0.5rem 0 1rem;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        border: 1px solid #d1d5db;
+        background: #f9fafb;
+        color: #111827;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.15s ease, border-color 0.15s ease;
+      }
+
+      .button:hover {
+        background: #f3f4f6;
+        border-color: #9ca3af;
+      }
+
+      #iframe-container.fullscreen-active {
+        height: 100vh;
+      }
+
+      #iframe-container.fullscreen-active iframe {
+        height: 100vh;
+      }
     </style>
   </head>
   <body>
@@ -186,6 +221,11 @@
         This is the model’s own HTML, shown in an iframe below. It may contain
         layout issues or odd styles – that’s part of the benchmark.
       </p>
+      <div class="fullscreen-controls">
+        <button id="fullscreen-toggle" class="button" type="button">
+          Enter full screen
+        </button>
+      </div>
       <div id="iframe-container">
         <iframe id="solution-frame" src="about:blank" loading="lazy"></iframe>
       </div>
@@ -221,6 +261,8 @@
         const titleEl = document.getElementById("page-title");
         const metaEl = document.getElementById("model-meta");
         const frameEl = document.getElementById("solution-frame");
+        const frameContainer = document.getElementById("iframe-container");
+        const fullscreenToggle = document.getElementById("fullscreen-toggle");
         const rawEl = document.getElementById("raw-source");
         const critiquesEl = document.getElementById("critiques");
         const critiqueCountsEl = document.getElementById("critique-counts");
@@ -390,6 +432,33 @@
         }
 
         populateJudgePrompt();
+
+        function syncFullscreenState() {
+          if (!frameContainer || !fullscreenToggle) return;
+          const isFullscreen = document.fullscreenElement === frameContainer;
+          frameContainer.classList.toggle("fullscreen-active", isFullscreen);
+          fullscreenToggle.textContent = isFullscreen
+            ? "Exit full screen"
+            : "Enter full screen";
+        }
+
+        if (fullscreenToggle && frameContainer && frameContainer.requestFullscreen) {
+          fullscreenToggle.addEventListener("click", async () => {
+            try {
+              if (document.fullscreenElement === frameContainer) {
+                if (document.exitFullscreen) {
+                  await document.exitFullscreen();
+                }
+              } else {
+                await frameContainer.requestFullscreen();
+              }
+            } catch (err) {
+              console.error("Fullscreen toggle failed", err);
+            }
+          });
+          document.addEventListener("fullscreenchange", syncFullscreenState);
+          syncFullscreenState();
+        }
 
         if (!slug) {
           await renderSolutionsNav(null);

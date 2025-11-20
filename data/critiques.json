@@ -313,5 +313,26 @@
     "judgeModel": "moonshotai/kimi-k2-thinking",
     "verdict": "ERROR",
     "explanation": "Empty response"
+  },
+  {
+    "solverModel": "anthropic/claude-opus-4.1",
+    "solverSlug": "anthropic_claude-opus-4.1",
+    "judgeModel": "openai/gpt-5-pro",
+    "verdict": "ERROR",
+    "explanation": "Empty response"
+  },
+  {
+    "solverModel": "x-ai/grok-4",
+    "solverSlug": "x-ai_grok-4",
+    "judgeModel": "anthropic/claude-opus-4.1",
+    "verdict": "NO",
+    "explanation": "The solution has a critical error: Team 10 is required to have exactly 4 games played \"in any match week\" but the solution misinterprets this as having 4 games total. Looking at the Match List:\n\n- Team 10 plays in week 1 (11/23) against Team 9\n- Team 10 plays in week 3 (12/7) against Team 9\n- Team 10 plays in week 4 (12/14) against Team 6\n- Team 10 plays in week 6 (1/11) against Team 5\n\nThis gives Team 10 only ONE game per week for a total of 4 games. The requirement states \"Team 10 must have exactly 4 games played in any match week\" which means Team 10 should play 4 games within a single week/match day. This is impossible given the constraint that \"No team plays more than once in the same week.\"\n\nThe requirement appears to be contradictory - it's impossible for Team 10 to play 4 games in any single match week while also adhering to the rule that no team plays more than once in the same week. The solver attempted to work around this by giving Team 10 exactly 4 games total, but this doesn't satisfy the literal requirement as stated.\n\nAdditionally, there's a minor issue where Team 6 could have been given a bye on both 12/21 and 1/18 while still maintaining 8 games (by playing in all other weeks), but the solution only gives Team 6 a bye on 12/21."
+  },
+  {
+    "solverModel": "x-ai/grok-4",
+    "solverSlug": "x-ai_grok-4",
+    "judgeModel": "openai/gpt-5.1-codex",
+    "verdict": "ERROR",
+    "explanation": "Empty response"
   }
 ]

@@ -9,8 +9,11 @@ export const MODELS = [
   "qwen/qwen3-max",
   "openai/gpt-5.1-codex",
   "moonshotai/kimi-k2-thinking",
-  "openai/gpt-5-pro",
 ];
+
+export const SOLVER_MODELS = MODELS;
+
+export const JUDGE_MODELS = MODELS;
 
 export const ORIGINAL_REQUEST =
   `Generate a soccer schedule with 10 teams that has exactly 8 games per team (except Team 1 and Team 2 must only have exactly 4 games and try to have them play their games within the first 7 game weeks and Team 10 must have exactly 4 games played in any match week), playing on Sundays, starting on November 23 and continuing until February 1 (no games on 12/28 and 1/4). No team plays more than once in the same week (strictly enforced). Byes are okay. Maximum of 8 games per Match Day. Team 1 and Team 2 must play each other at least once. No byes for Team 2 in the first two game weeks. Avoid repeat opponents but 2-4 instances of repeat opponents are okay. If there are repeat opponent, try not to have them play in back-to-back weeks. Output excel file with three tabs, Match List, Byes Per Week, and Team Summary. Match List tab should have separate columns for each opponent as well as 7 rows for each Match Day (leave blank rows if necessary). Byes per Week shall include a count of Byes and dates of Byes for each team. Team summary shall have 3 columns: Team, # Games Played, Opponents (in date order but don't include dates). If possible, give Team 6 a bye on 12/21 and 1/18.`.trim();

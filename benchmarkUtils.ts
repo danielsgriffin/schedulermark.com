@@ -47,6 +47,14 @@ type OpenRouterChatResponse = {
   }>;
 };
 
+type OpenRouterError = {
+  error?: {
+    message?: string;
+    code?: number | string;
+    metadata?: unknown;
+  };
+};
+
 type CallOptions = {
   maxTokens?: number;
 };
@@ -80,7 +88,17 @@ export async function callOpenRouter(
     );
   }
 
-  const json = (await res.json()) as OpenRouterChatResponse;
+  const json = (await res.json()) as OpenRouterChatResponse & OpenRouterError;
+
+  // If OpenRouter returns an error object in a 200, surface it.
+  if (json.error) {
+    throw new Error(
+      `OpenRouter error body for ${model}: ${json.error.code ?? ""} ${
+        json.error.message ?? ""
+      }`
+    );
+  }
+
   const message = json.choices?.[0]?.message;
   let content = message?.content;
 
@@ -88,8 +106,12 @@ export async function callOpenRouter(
     content = content.map((part) => part.text ?? "").join("\n");
   }
 
-  if (typeof content !== "string") {
-    throw new Error(`Unexpected response shape for ${model}`);
+  if (typeof content !== "string" || !content.trim()) {
+    console.error(
+      `Empty or missing content from ${model} response:`,
+      JSON.stringify(json, null, 2)
+    );
+    throw new Error(`Empty response content for ${model}`);
   }
   return content;
 }

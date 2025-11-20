@@ -5,6 +5,8 @@ import { join } from "node:path";
 
 import {
   MODELS,
+  SOLVER_MODELS,
+  JUDGE_MODELS,
   ORIGINAL_REQUEST,
   SOLVER_PROMPT,
   JUDGE_PROMPT_TEMPLATE,
@@ -88,6 +90,8 @@ async function main() {
     solverPrompt: SOLVER_PROMPT,
     judgePromptTemplate: JUDGE_PROMPT_TEMPLATE,
     models: MODELS,
+    solverModels: SOLVER_MODELS,
+    judgeModels: JUDGE_MODELS,
     lastRun: new Date().toISOString(),
   };
   await writeFile(metaPath, JSON.stringify(meta, null, 2), "utf8");
@@ -128,8 +132,8 @@ async function main() {
   const solutions: Record<string, SolutionRecord> = {};
 
   await logToFile("=== SOLVER PHASE (Bun) ===");
-  for (let i = 0; i < MODELS.length; i++) {
-    const model = MODELS[i];
+  for (let i = 0; i < SOLVER_MODELS.length; i++) {
+    const model = SOLVER_MODELS[i];
     if (!model) continue;
     const slug = slugify(model);
     const outPath = join("solutions", `${slug}.html`);
@@ -146,7 +150,7 @@ async function main() {
       ) {
         await logWarnToFile(
           `[${i + 1}/${
-            MODELS.length
+            SOLVER_MODELS.length
           }] Existing solution for ${model} is empty or invalid, regenerating...`
         );
         // Continue to generate new solution below
@@ -154,7 +158,7 @@ async function main() {
         solutions[model] = { model, slug, html };
         await logToFile(
           `[${i + 1}/${
-            MODELS.length
+            SOLVER_MODELS.length
           }] Skipping ${model}, solution already exists at ${outPath}`
         );
         continue;
@@ -163,7 +167,7 @@ async function main() {
 
     await logToFile(
       `[${i + 1}/${
-        MODELS.length
+        SOLVER_MODELS.length
       }] Generating solution for ${model} -> ${outPath}`
     );
 
@@ -227,11 +231,11 @@ async function main() {
 
   await logToFile("\n=== JUDGE PHASE (Bun) ===");
   const solverEntries = Object.entries(solutions);
-  const totalPairs = solverEntries.length * MODELS.length;
+  const totalPairs = solverEntries.length * JUDGE_MODELS.length;
   let pairIndex = 0;
 
   for (const [solverModel, { html, slug }] of solverEntries) {
-    for (const judgeModel of MODELS) {
+    for (const judgeModel of JUDGE_MODELS) {
       const pairKey = `${solverModel}|${judgeModel}`;
       pairIndex++;
 
