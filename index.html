@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SchedulerMark – LLM Soccer Scheduling Benchmark</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        line-height: 1.6;
+      }
+      h1 {
+        margin-bottom: 0.25rem;
+      }
+      code {
+        background: #f5f5f5;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-size: 0.9em;
+      }
+      ul {
+        padding-left: 1.25rem;
+      }
+      details {
+        margin: 0.75rem 0;
+      }
+      details > summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      pre {
+        background: #000;
+        color: #0f0;
+        padding: 0.75rem;
+        border-radius: 4px;
+        overflow-x: auto;
+        font-size: 0.8rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      footer {
+        margin-top: 3rem;
+        font-size: 0.85rem;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SchedulerMark</h1>
+
+    <p>
+      SchedulerMark is a fully open, unsupervised benchmark exploring how large
+      language models reason about a complex natural-language scheduling
+      problem—and how they critique each other’s attempts.
+    </p>
+
+    <p>
+      This benchmark uses models served via
+      <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer"
+        >OpenRouter</a
+      >.
+    </p>
+
+    <ol>
+      <li>
+        Each model receives the same long, messy natural-language scheduling
+        request.
+      </li>
+      <li>
+        Each model produces an HTML “solution” containing:
+        <ul>
+          <li>a proposed soccer schedule, and</li>
+          <li>its own explanation of why the solution is correct.</li>
+        </ul>
+      </li>
+      <li>
+        Every model then reviews every other model’s HTML and answers a single
+        question: <br /><strong
+          ><code>Is this solution correct? Why or why not?</code></strong
+        >
+      </li>
+    </ol>
+
+    <h2>Task & Prompts</h2>
+
+    <details>
+      <summary>Original user request</summary>
+      <pre id="original-request">Loading…</pre>
+    </details>
+
+    <details>
+      <summary>Solver prompt (exact text sent to models)</summary>
+      <pre id="solver-prompt">Loading…</pre>
+    </details>
+
+    <details>
+      <summary>Judge prompt template</summary>
+      <pre id="judge-prompt">Loading…</pre>
+    </details>
+
+    <h2>Solutions</h2>
+    <ul id="solutions-list">
+      <li>Loading model list…</li>
+    </ul>
+
+    <p>
+      There is no ground-truth checker and no enforced rubric— the models
+      generate the solutions and the critiques entirely on their own. The goal
+      is simply to observe how they behave.
+    </p>
+
+    <h2>Source Code</h2>
+    <p>
+      The code and data live in the public repository:
+      <a
+        href="https://github.com/danielsgriffin/schedulermark.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <code>schedulermark.com</code>
+      </a>
+      (MIT licensed).
+    </p>
+
+    <footer>
+      Models accessed via
+      <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer"
+        >OpenRouter</a
+      >.
+    </footer>
+
+    <script>
+      (async function () {
+        const preReq = document.getElementById("original-request");
+        const preSolver = document.getElementById("solver-prompt");
+        const preJudge = document.getElementById("judge-prompt");
+        const solutionsList = document.getElementById("solutions-list");
+
+        function slugify(model) {
+          return model.replace(/[/:]/g, "_");
+        }
+
+        try {
+          const [metaRes, critiquesRes] = await Promise.all([
+            fetch("data/meta.json"),
+            fetch("data/critiques.json"),
+          ]);
+
+          if (!metaRes.ok) {
+            throw new Error(`HTTP ${metaRes.status} ${metaRes.statusText}`);
+          }
+          const meta = await metaRes.json();
+
+          let verdictCounts = {};
+          if (critiquesRes.ok) {
+            const critiques = await critiquesRes.json();
+            // Count YES/NO verdicts for each solver model
+            for (const critique of critiques) {
+              const solverModel = critique.solverModel;
+              if (!verdictCounts[solverModel]) {
+                verdictCounts[solverModel] = { yes: 0, no: 0 };
+              }
+              if (critique.verdict === "YES") {
+                verdictCounts[solverModel].yes++;
+              } else if (critique.verdict === "NO") {
+                verdictCounts[solverModel].no++;
+              }
+            }
+          }
+
+          const original = (meta.originalRequest || "").trim();
+          const solverRaw = meta.solverPrompt || "";
+          const judgeRaw = meta.judgePromptTemplate || "";
+
+          const placeholder = '[see "Original user request" above]';
+
+          // Show full original request once
+          preReq.textContent = original || "(missing originalRequest)";
+
+          // For solver prompt: collapse the inlined request if present
+          if (solverRaw) {
+            preSolver.textContent =
+              original && solverRaw.includes(original)
+                ? solverRaw.replace(original, placeholder)
+                : solverRaw;
+          } else {
+            preSolver.textContent = "(missing solverPrompt)";
+          }
+
+          // For judge prompt: same trick
+          if (judgeRaw) {
+            preJudge.textContent =
+              original && judgeRaw.includes(original)
+                ? judgeRaw.replace(original, placeholder)
+                : judgeRaw;
+          } else {
+            preJudge.textContent = "(missing judgePromptTemplate)";
+          }
+
+          const models = Array.isArray(meta.models) ? meta.models : [];
+          solutionsList.innerHTML = "";
+          if (!models.length) {
+            solutionsList.innerHTML = "<li>No models listed in meta.json.</li>";
+          } else {
+            for (const model of models) {
+              const slug = slugify(model);
+              const li = document.createElement("li");
+              const a = document.createElement("a");
+              a.href = `solution?solverSlug=${slug}`;
+              a.textContent = model;
+              li.appendChild(a);
+
+              // Add verdict counts if available
+              const counts = verdictCounts[model];
+              if (counts && (counts.yes > 0 || counts.no > 0)) {
+                const span = document.createElement("span");
+                span.textContent = ` (${counts.yes} YES, ${counts.no} NO)`;
+                span.style.color = "#666";
+                span.style.fontSize = "0.9em";
+                li.appendChild(span);
+              }
+
+              solutionsList.appendChild(li);
+            }
+          }
+        } catch (err) {
+          preReq.textContent = `Could not load data/meta.json: ${err}`;
+          preSolver.textContent = "";
+          preJudge.textContent = "";
+          solutionsList.innerHTML =
+            "<li>Could not load meta.json; see console.</li>";
+          console.error(err);
+        }
+      })();
+    </script>
+  </body>
+</html>

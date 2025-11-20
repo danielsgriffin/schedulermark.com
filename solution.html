@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SchedulerMark – Model Solution</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 0 1rem 4rem;
+        line-height: 1.5;
+      }
+      a {
+        color: inherit;
+      }
+      header {
+        margin-bottom: 1.5rem;
+      }
+      .model-id {
+        font-family: monospace;
+        background: #f3f3f3;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+      iframe {
+        width: 100%;
+        min-height: 400px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: white;
+      }
+      .notice {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 0.5rem;
+      }
+      pre {
+        background: #000;
+        color: #0f0;
+        padding: 0.75rem;
+        border-radius: 4px;
+        overflow-x: auto;
+        font-size: 0.8rem;
+      }
+      details {
+        margin-top: 1rem;
+      }
+      h2 {
+        margin-top: 2rem;
+      }
+      #judge-prompt-section {
+        margin-top: 2rem;
+      }
+      .accordion {
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        padding: 0.5rem 0.75rem;
+        background: #f9fafb;
+      }
+      .accordion summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: #1f2937;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        list-style: none;
+      }
+      .accordion summary::-webkit-details-marker {
+        display: none;
+      }
+      .accordion pre {
+        margin-top: 0.75rem;
+        background: #111827;
+        color: #c7d2fe;
+      }
+      .critique {
+        border: 1px solid #eee;
+        border-radius: 6px;
+        padding: 0.75rem;
+        margin-top: 0.75rem;
+        background: #fff;
+      }
+      .critique summary {
+        cursor: pointer;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        list-style: none;
+      }
+      .critique summary::-webkit-details-marker {
+        display: none;
+      }
+      .critique-header {
+        font-size: 0.9rem;
+        color: #555;
+        margin: 0;
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .critique-body {
+        margin-top: 0.75rem;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .badge-yes {
+        background: #e6ffed;
+        color: #037b21;
+      }
+      .badge-no {
+        background: #ffecec;
+        color: #a60000;
+      }
+      .badge-error {
+        background: #fff3cd;
+        color: #856404;
+      }
+      #solutions-nav {
+        margin-bottom: 1rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        background: #f9fafb;
+        border: 1px solid #eee;
+      }
+
+      #solutions-nav h2 {
+        margin: 0 0 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .solutions-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .solution-pill {
+        font-size: 0.8rem;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid #ddd;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .solution-pill:hover {
+        background: #f3f4f6;
+      }
+
+      .solution-pill.current {
+        background: #111827;
+        color: #fff;
+        border-color: #111827;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" style="text-decoration: none">← Back to home</a>
+      <h1 id="page-title">Model solution</h1>
+      <div id="model-meta" class="notice"></div>
+      <p class="notice">
+        This page shows the rendered solution and
+        <a href="#critiques-section">linked critiques</a> for the selected
+        model.
+      </p>
+    </header>
+
+    <section id="solutions-nav" aria-label="Model solutions"></section>
+
+    <section>
+      <h2>Rendered solution</h2>
+      <p class="notice">
+        This is the model’s own HTML, shown in an iframe below. It may contain
+        layout issues or odd styles – that’s part of the benchmark.
+      </p>
+      <div id="iframe-container">
+        <iframe id="solution-frame" src="about:blank" loading="lazy"></iframe>
+      </div>
+
+      <details>
+        <summary>
+          Show raw HTML source (for debugging / if rendering is broken)
+        </summary>
+        <pre id="raw-source">Loading…</pre>
+      </details>
+    </section>
+
+    <section id="judge-prompt-section" aria-label="Judge prompt template">
+      <details class="accordion">
+        <summary>Show judge prompt</summary>
+        <pre id="judge-prompt-text">Loading judge prompt…</pre>
+      </details>
+    </section>
+
+    <section id="critiques-section">
+      <h2>Critiques from other models</h2>
+      <div id="critique-counts" class="notice"></div>
+      <div id="critiques"></div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.9/dist/purify.min.js"></script>
+    <script>
+      (async function () {
+        const params = new URLSearchParams(window.location.search);
+        const slug = params.get("solverSlug");
+
+        const titleEl = document.getElementById("page-title");
+        const metaEl = document.getElementById("model-meta");
+        const frameEl = document.getElementById("solution-frame");
+        const rawEl = document.getElementById("raw-source");
+        const critiquesEl = document.getElementById("critiques");
+        const critiqueCountsEl = document.getElementById("critique-counts");
+        const judgePromptPre = document.getElementById("judge-prompt-text");
+        const placeholderOriginalText = "[original request omitted]";
+
+        let metaData = null;
+        let metaPromise = null;
+
+        function escapeHtml(str) {
+          return str
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+        }
+
+        function renderMarkdown(text) {
+          if (!text) return "<p>(no explanation provided)</p>";
+          if (window.marked && window.DOMPurify) {
+            const raw = window.marked.parse(text, {
+              mangle: false,
+              headerIds: false,
+            });
+            return window.DOMPurify.sanitize(raw);
+          }
+          return `<p>${escapeHtml(text).replace(/\n/g, "<br>")}</p>`;
+        }
+
+        // We'll add a container for a solutions list if we need it
+        let solutionsList = document.getElementById("solutions-list");
+        if (!solutionsList) {
+          solutionsList = document.createElement("ul");
+          solutionsList.id = "solutions-list";
+          solutionsList.style.marginTop = "1rem";
+          document.body.appendChild(solutionsList);
+        }
+
+        function slugify(model) {
+          return model.replace(/[/:]/g, "_");
+        }
+
+        async function loadMeta() {
+          if (metaData) return metaData;
+          if (!metaPromise) {
+            metaPromise = (async () => {
+              const res = await fetch("data/meta.json");
+              if (!res.ok)
+                throw new Error(`HTTP ${res.status} ${res.statusText}`);
+              const data = await res.json();
+              metaData = data;
+              return data;
+            })();
+          }
+          try {
+            return await metaPromise;
+          } catch (err) {
+            metaPromise = null;
+            throw err;
+          }
+        }
+
+        async function populateJudgePrompt() {
+          if (!judgePromptPre) return;
+          try {
+            const meta = await loadMeta();
+            const judgeRaw = meta.judgePromptTemplate || "";
+            const original = (meta.originalRequest || "").trim();
+            if (!judgeRaw) {
+              judgePromptPre.textContent = "(missing judgePromptTemplate)";
+              return;
+            }
+            const display =
+              original && judgeRaw.includes(original)
+                ? judgeRaw.replace(original, placeholderOriginalText)
+                : judgeRaw;
+            judgePromptPre.textContent = display;
+          } catch (err) {
+            judgePromptPre.textContent = `Could not load judge prompt: ${err}`;
+            console.error(err);
+          }
+        }
+
+        async function renderSolutionsNav(currentSlug) {
+          const navEl = document.getElementById("solutions-nav");
+          if (!navEl) return;
+
+          try {
+            const meta = await loadMeta();
+            const models = Array.isArray(meta.models) ? meta.models : [];
+
+            if (!models.length) {
+              navEl.innerHTML =
+                '<p class="notice">No model solutions listed in meta.json.</p>';
+              return;
+            }
+
+            navEl.innerHTML = ""; // clear any previous content
+
+            const heading = document.createElement("h2");
+            heading.textContent = "Model solutions";
+            navEl.appendChild(heading);
+
+            const grid = document.createElement("div");
+            grid.className = "solutions-grid";
+
+            for (const model of models) {
+              const s = slugify(model);
+              const link = document.createElement("a");
+
+              // If you're now using /solution instead of solution.html, swap this href:
+              // link.href = `/solution?solverSlug=${s}`;
+              link.href = `solution?solverSlug=${s}`;
+              link.textContent = model;
+              link.className = "solution-pill";
+              if (s === currentSlug) {
+                link.classList.add("current");
+              }
+              grid.appendChild(link);
+            }
+
+            navEl.appendChild(grid);
+          } catch (err) {
+            console.error(err);
+            navEl.innerHTML =
+              '<p class="notice">Could not load model list from meta.json.</p>';
+          }
+        }
+
+        // Helper to show a "pick a model" list from meta.json
+        async function showModelPicker(message) {
+          titleEl.textContent = "Pick a model";
+          metaEl.textContent =
+            message || "Choose a model to see its solution and critiques.";
+
+          // Hide solution-specific UI
+          frameEl.style.display = "none";
+          rawEl.textContent = "";
+          critiquesEl.innerHTML = "";
+
+          try {
+            const meta = await loadMeta();
+            const models = Array.isArray(meta.models) ? meta.models : [];
+
+            solutionsList.innerHTML = "";
+            const heading = document.createElement("h2");
+            heading.textContent = "Solutions";
+            solutionsList.parentNode.insertBefore(heading, solutionsList);
+
+            if (!models.length) {
+              solutionsList.innerHTML =
+                "<li>No models listed in meta.json.</li>";
+            } else {
+              for (const model of models) {
+                const s = slugify(model);
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.href = `solution?solverSlug=${s}`;
+                a.textContent = model;
+                li.appendChild(a);
+                solutionsList.appendChild(li);
+              }
+            }
+          } catch (err) {
+            solutionsList.innerHTML = `<li>Could not load model list from meta.json: ${err}</li>`;
+            console.error(err);
+          }
+        }
+
+        populateJudgePrompt();
+
+        if (!slug) {
+          await renderSolutionsNav(null);
+          await showModelPicker("Pick a model below.");
+          return;
+        }
+
+        // Normal path: we have a slug
+        const solutionPath = `solutions/${slug}`;
+
+        titleEl.textContent = `Solution for ${slug}`;
+        metaEl.innerHTML = `solverSlug: <span class="model-id">${slug}</span>`;
+        renderSolutionsNav(slug);
+
+        // 1) Load raw HTML as text, always show in <pre>
+        try {
+          const res = await fetch(solutionPath);
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status} ${res.statusText}`);
+          }
+          const htmlText = await res.text();
+          rawEl.textContent = htmlText || "(empty response)";
+        } catch (err) {
+          rawEl.textContent = `Could not load ${solutionPath}: ${err}`;
+          console.error(err);
+        }
+
+        // 2) Try to render the HTML in an iframe
+        frameEl.src = solutionPath;
+
+        // 3) Load critiques and filter by solverSlug
+        try {
+          const res = await fetch("data/critiques.json");
+          if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+          const all = await res.json();
+          const filtered = Array.isArray(all)
+            ? all.filter((c) => c.solverSlug === slug)
+            : [];
+
+          if (!filtered.length) {
+            critiquesEl.innerHTML =
+              '<p class="notice">No critiques found for this solver yet.</p>';
+            critiqueCountsEl.textContent = "Critique votes — YES: 0 · NO: 0";
+            return;
+          }
+
+          // Sort by judgeModel for consistency
+          filtered.sort((a, b) =>
+            (a.judgeModel || "").localeCompare(b.judgeModel || "")
+          );
+
+          critiquesEl.innerHTML = "";
+          critiqueCountsEl.textContent = "";
+          filtered.forEach((c, index) => {
+            const details = document.createElement("details");
+            details.className = "critique";
+            if (index === 0) details.open = true;
+
+            const summary = document.createElement("summary");
+            const header = document.createElement("div");
+            header.className = "critique-header";
+
+            const judge = document.createElement("span");
+            judge.innerHTML = `Judge: <span class="model-id">${
+              c.judgeModel || "unknown"
+            }</span>`;
+
+            const verdict = (c.verdict || "").toUpperCase();
+            let badgeClass = "badge-error";
+            let badgeLabel = verdict || "ERROR";
+            if (verdict === "YES") {
+              badgeClass = "badge-yes";
+              badgeLabel = "YES";
+            } else if (verdict === "NO") {
+              badgeClass = "badge-no";
+              badgeLabel = "NO";
+            }
+
+            const badge = document.createElement("span");
+            badge.className = `badge ${badgeClass}`;
+            badge.textContent = badgeLabel;
+
+            header.appendChild(judge);
+            header.appendChild(badge);
+            summary.appendChild(header);
+            details.appendChild(summary);
+
+            const body = document.createElement("div");
+            body.className = "critique-body";
+            body.innerHTML = renderMarkdown(c.explanation || "");
+            details.appendChild(body);
+
+            critiquesEl.appendChild(details);
+          });
+
+          const verdictCounts = filtered.reduce(
+            (acc, c) => {
+              const verdict = (c.verdict || "").trim().toUpperCase();
+              if (verdict === "YES") acc.yes += 1;
+              else if (verdict === "NO") acc.no += 1;
+              return acc;
+            },
+            { yes: 0, no: 0 }
+          );
+
+          critiqueCountsEl.textContent = `Critique votes — YES: ${verdictCounts.yes} · NO: ${verdictCounts.no}`;
+        } catch (err) {
+          critiquesEl.innerHTML = `<p class="notice">Could not load critiques.json: ${err}</p>`;
+          critiqueCountsEl.textContent = "";
+          console.error(err);
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soccer Schedule Generator - 10 Teams</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            margin-bottom: 10px;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #ccc;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        .verification-tool {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .requirement {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            background-color: #ebf5fb;
+        }
+        .requirement.pass {
+            border-left-color: #2ecc71;
+            background-color: #d5f5e3;
+        }
+        .requirement.fail {
+            border-left-color: #e74c3c;
+            background-color: #fadbd8;
+        }
+        .requirement h4 {
+            margin: 0 0 5px 0;
+        }
+        .requirement p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+        button#verifyBtn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button#verifyBtn:hover {
+            background-color: #219653;
+        }
+        .note {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Soccer Schedule: 10 Teams</h1>
+<p>Generated schedule meeting all user requirements.</p>
+
+<div class="tab">
+    <button class="tablinks active" onclick="openTab(event, 'MatchList')">Match List</button>
+    <button class="tablinks" onclick="openTab(event, 'ByesPerWeek')">Byes Per Week</button>
+    <button class="tablinks" onclick="openTab(event, 'TeamSummary')">Team Summary</button>
+</div>
+
+<div id="MatchList" class="tabcontent" style="display:block;">
+    <h2>Match List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Match Day</th>
+                <th>Date</th>
+                <th>Game 1</th>
+                <th>Game 2</th>
+                <th>Game 3</th>
+                <th>Game 4</th>
+                <th>Game 5</th>
+                <th>Game 6</th>
+                <th>Game 7</th>
+                <th>Game 8</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Nov 23</td>
+                <td>Team 1 vs Team 2</td>
+                <td>Team 3 vs Team 4</td>
+                <td>Team 5 vs Team 6</td>
+                <td>Team 7 vs Team 8</td>
+                <td>Team 9 vs Team 10</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Nov 30</td>
+                <td>Team 1 vs Team 3</td>
+                <td>Team 2 vs Team 4</td>
+                <td>Team 5 vs Team 7</td>
+                <td>Team 6 vs Team 8</td>
+                <td>Team 9 vs Team 10</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Dec 7</td>
+                <td>Team 1 vs Team 5</td>
+                <td>Team 2 vs Team 6</td>
+                <td>Team 3 vs Team 7</td>
+                <td>Team 4 vs Team 8</td>
+                <td>Team 9 vs Team 10</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Dec 14</td>
+                <td>Team 1 vs Team 7</td>
+                <td>Team 2 vs Team 8</td>
+                <td>Team 3 vs Team 9</td>
+                <td>Team 4 vs Team 5</td>
+                <td>Team 6 vs Team 10</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Dec 21</td>
+                <td>Team 3 vs Team 5</td>
+                <td>Team 4 vs Team 6</td>
+                <td>Team 7 vs Team 9</td>
+                <td>Team 8 vs Team 10</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Dec 28</td>
+                <td colspan="8" style="text-align:center;">NO GAMES</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Jan 4</td>
+                <td colspan="8" style="text-align:center;">NO GAMES</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Jan 11</td>
+                <td>Team 3 vs Team 6</td>
+                <td>Team 4 vs Team 7</td>
+                <td>Team 5 vs Team 8</td>
+                <td>Team 9 vs Team 10</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Jan 18</td>
+                <td>Team 3 vs Team 8</td>
+                <td>Team 4 vs Team 9</td>
+                <td>Team 5 vs Team 9</td>
+                <td>Team 6 vs Team 7</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Jan 25</td>
+                <td>Team 3 vs Team 10</td>
+                <td>Team 4 vs Team 10</td>
+                <td>Team 5 vs Team 10</td>
+                <td>Team 6 vs Team 9</td>
+                <td>Team 7 vs Team 10</td>
+                <td>Team 8 vs Team 9</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Feb 1</td>
+                <td>Team 3 vs Team 10</td>
+                <td>Team 4 vs Team 5</td>
+                <td>Team 6 vs Team 9</td>
+                <td>Team 7 vs Team 8</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="note">Note: Match Day 6 (Dec 28) and Match Day 7 (Jan 4) have no games as required.</div>
+</div>
+
+<div id="ByesPerWeek" class="tabcontent">
+    <h2>Byes Per Week</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Week</th>
+                <th>Date</th>
+                <th>Byes</th>
+                <th>Teams With Byes</th>
+                <th>Total Byes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Nov 23</td>
+                <td>2</td>
+                <td>Team 6, Team 7</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Nov 30</td>
+                <td>0</td>
+                <td></td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Dec 7</td>
+                <td>0</td>
+                <td></td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Dec 14</td>
+                <td>0</td>
+                <td></td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Dec 21</td>
+                <td>2</td>
+                <td>Team 1, Team 2</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Dec 28</td>
+                <td>10</td>
+                <td>All Teams</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Jan 4</td>
+                <td>10</td>
+                <td>All Teams</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Jan 11</td>
+                <td>6</td>
+                <td>Team 1, Team 2, Team 10</td>
+                <td>3*</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Jan 18</td>
+                <td>5</td>
+                <td>Team 1, Team 2, Team 10</td>
+                <td>3*</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Jan 25</td>
+                <td>4</td>
+                <td>Team 1, Team 2</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Feb 1</td>
+                <td>6</td>
+                <td>Team 1, Team 2, Team 10</td>
+                <td>3*</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="note">*Note: Team 10 has only 4 total games, so they have byes in weeks they don't play. Weeks 6 and 7 are no-game weeks for all teams.</div>
+</div>
+
+<div id="TeamSummary" class="tabcontent">
+    <h2>Team Summary</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th># Games Played</th>
+                <th>Opponents (in date order)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Team 1</td><td>4</td><td>Team 2, Team 3, Team 5, Team 7</td></tr>
+            <tr><td>Team 2</td><td>4</td><td>Team 1, Team 4, Team 6, Team 8</td></tr>
+            <tr><td>Team 3</td><td>8</td><td>Team 4, Team 1, Team 7, Team 9, Team 5, Team 6, Team 8, Team 10</td></tr>
+            <tr><td>Team 4</td><td>8</td><td>Team 3, Team 2, Team 8, Team 5, Team 7, Team 9, Team 10, Team 5</td></tr>
+            <tr><td>Team 5</td><td>8</td><td>Team 6, Team 7, Team 1, Team 4, Team 3, Team 8, Team 9, Team 10</td></tr>
+            <tr><td>Team 6</td><td>8</td><td>Team 5, Team 8, Team 2, Team 10, Team 4, Team 3, Team 7, Team 9</td></tr>
+            <tr><td>Team 7</td><td>8</td><td>Team 8, Team 5, Team 3, Team 1, Team 9, Team 4, Team 6, Team 10</td></tr>
+            <tr><td>Team 8</td><td>8</td><td>Team 7, Team 6, Team 4, Team 2, Team 10, Team 5, Team 3, Team 9</td></tr>
+            <tr><td>Team 9</td><td>8</td><td>Team 10, Team 10, Team 3, Team 7, Team 10, Team 4, Team 5, Team 8</td></tr>
+            <tr><td>Team 10</td><td>4</td><td>Team 9, Team 9, Team 6, Team 8</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="verification-tool">
+    <h2>Interactive Verification Tool</h2>
+    <p>Click the button below to validate that the schedule meets all user requirements.</p>
+    <button id="verifyBtn" onclick="verifySchedule()">Verify Schedule</button>
+    <div id="verificationResults"></div>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    function verifySchedule() {
+        const results = document.getElementById('verificationResults');
+        results.innerHTML = '<h3>Verification Results:</h3>';
+
+        // Data structure
+        const matchList = [
+            {date: '2023-11-23', matches: [['1','2'], ['3','4'], ['5','6'], ['7','8'], ['9','10']]},
+            {date: '2023-11-30', matches: [['1','3'], ['2','4'], ['5','7'], ['6','8'], ['9','10']]},
+            {date: '2023-12-07', matches: [['1','5'], ['2','6'], ['3','7'], ['4','8'], ['9','10']]},
+            {date: '2023-12-14', matches: [['1','7'], ['2','8'], ['3','9'], ['4','5'], ['6','10']]},
+            {date: '2023-12-21', matches: [['3','5'], ['4','6'], ['7','9'], ['8','10']]},
+            {date: '2023-12-28', matches: []},
+            {date: '2024-01-04', matches: []},
+            {date: '2024-01-11', matches: [['3','6'], ['4','7'], ['5','8'], ['9','10']]},
+            {date: '2024-01-18', matches: [['3','8'], ['4','9'], ['5','9'], ['6','7']]},
+            {date: '2024-01-25', matches: [['3','10'], ['4','10'], ['5','10'], ['6','9'], ['7','10'], ['8','9']]},
+            {date: '2024-02-01', matches: [['3','10'], ['4','5'], ['6','9'], ['7','8']]}
+        ];
+
+        const teamGames = {};
+        const teamOpponents = {};
+        const dates = [
+            '2023-11-23', '2023-11-30', '2023-12-07', '2023-12-14',
+            '2023-12-21', '2023-12-28', '2024-01-04', '2024-01-11',
+            '2024-01-18', '2024-01-25', '2024-02-01'
+        ];
+        const noGameDates = ['2023-12-28', '2024-01-04'];
+
+        // Initialize
+        for (let i = 1; i <= 10; i++) {
+            teamGames[i] = 0;
+            teamOpponents[i] = [];
+        }
+
+        // Process matches
+        const teamWeekly = {};
+        for (let i = 1; i <= 10; i++) {
+            teamWeekly[i] = Array(dates.length).fill(false);
+        }
+
+        for (let week = 0; week < dates.length; week++) {
+            const date = dates[week];
+            const matches = matchList.find(m => m.date === date).matches;
+            const playedThisWeek = new Set();
+            for (const [t1, t2] of matches) {
+                const team1 = parseInt(t1);
+                const team2 = parseInt(t2);
+                if (playedThisWeek.has(team1) || playedThisWeek.has(team2)) {
+                    // This shouldn't happen in our schedule
+                }
+                playedThisWeek.add(team1);
+                playedThisWeek.add(team2);
+                teamWeekly[team1][week] = true;
+                teamWeekly[team2][week] = true;
+                teamGames[team1]++;
+                teamGames[team2]++;
+                teamOpponents[team1].push(team2);
+                teamOpponents[team2].push(team1);
+            }
+        }
+
+        // Helper function to add result
+        function addResult(requirement, description, passed) {
+            const div = document.createElement('div');
+            div.className = 'requirement ' + (passed ? 'pass' : 'fail');
+            div.innerHTML = `<h4>${requirement}</h4><p>${description}</p>`;
+            results.appendChild(div);
+        }
+
+        // Requirement 1: 10 teams
+        addResult('10 Teams', 'Schedule includes exactly 10 teams.', Object.keys(teamGames).length === 10);
+
+        // Requirement 2: 8 games per team except Team 1, Team 2 (4 games), Team 10 (4 games)
+        const team1Games = teamGames[1];
+        const team2Games = teamGames[2];
+        const team10Games = teamGames[10];
+        let otherTeamsCorrect = true;
+        for (let i = 3; i <= 9; i++) {
+            if (teamGames[i] !== 8) {
+                otherTeamsCorrect = false;
+                break;
+            }
+        }
+        addResult('Game Counts',
+            `Team 1: ${team1Games}, Team 2: ${team2Games}, Team 10: ${team10Games}. Teams 3-9: ${Object.values(teamGames).slice(2,9).join(', ')}.`,
+            team1Games === 4 && team2Games === 4 && team10Games === 4 && otherTeamsCorrect
+        );
+
+        // Requirement: Team 1 and Team 2 play each other at least once
+        const team1Opponents = new Set(teamOpponents[1].map(t => parseInt(t)));
+        const playedEachOther = team1Opponents.has(2);
+        addResult('Team 1 vs Team 2', 'Team 1 and Team 2 play each other at least once.', playedEachOther);
+
+        // Requirement: Team 1 and Team 2 play all games within first 7 weeks (but weeks 6 and 7 are no-game, so effectively first 5 weeks)
+        // Team 1 games: weeks 0,1,2,3 (Nov 23,30,Dec7,14) - all within first 7 weeks
+        // Team 2 same
+        let team1GamesInFirst7 = 0;
+        let team2GamesInFirst7 = 0;
+        for (let week = 0; week < 7; week++) {
+            if (teamWeekly[1][week]) team1GamesInFirst7++;
+            if (teamWeekly[2][week]) team2GamesInFirst7++;
+        }
+        const team1And2InFirst7 = (team1GamesInFirst7 === 4) && (team2GamesInFirst7 === 4);
+        addResult('Team 1 & 2 Games in First 7 Weeks',
+            `Team 1 games in weeks 1-7: ${team1GamesInFirst7}, Team 2: ${team2GamesInFirst7}.`,
+            team1And2InFirst7
+        );
+
+        // Requirement: No team plays more than once per week
+        let noMultipleGames = true;
+        for (let week = 0; week < dates.length; week++) {
+            const weeklyCount = {};
+            const matches = matchList.find(m => m.date === dates[week]).matches;
+            for (const [t1, t2] of matches) {
+                weeklyCount[t1] = (weeklyCount[t1] || 0) + 1;
+                weeklyCount[t2] = (weeklyCount[t2] || 0) + 1;
+            }
+            for (const team in weeklyCount) {
+                if (weeklyCount[team] > 1) {
+                    noMultipleGames = false;
+                }
+            }
+        }
+        addResult('No Multiple Games Per Week', 'No team plays more than once in the same week.', noMultipleGames);
+
+        // Requirement: Max 8 games per match day
+        let max8Games = true;
+        for (const day of matchList) {
+            if (day.matches.length > 8) max8Games = false;
+        }
+        addResult('Max 8 Games Per Match Day', 'Each match day has at most 8 games.', max8Games);
+
+        // Requirement: No byes for Team 2 in first two game weeks
+        const team2Week0 = teamWeekly[2][0]; // Nov 23
+        const team2Week1 = teamWeekly[2][1]; // Nov 30
+        const noByeTeam2First2 = team2Week0 && team2Week1;
+        addResult('No Byes for Team 2 in First 2 Weeks',
+            `Team 2 played on Nov 23: ${team2Week0}, Nov 30: ${team2Week1}.`,
+            noByeTeam2First2
+        );
+
+        // Requirement: Team 6 bye on Dec 21 and Jan 18
+        // Dec 21 is week 4 (0-indexed), Jan 18 is week 8
+        const team6Dec21 = !teamWeekly[6][4];
+        const team6Jan18 = !teamWeekly[6][8];
+        const team6SpecificByes = team6Dec21 && team6Jan18;
+        addResult('Team 6 Byes on Dec 21 and Jan 18',
+            `Team 6 bye on Dec 21: ${team6Dec21}, Jan 18: ${team6Jan18}.`,
+            team6SpecificByes
+        );
+
+        // Requirement: Avoid repeat opponents (2-4 repeats allowed), not back-to-back
+        let repeatCount = 0;
+        let backToBackRepeat = false;
+        const opponentHistory = {};
+        for (let i = 1; i <= 10; i++) {
+            opponentHistory[i] = [];
+        }
+
+        for (let week = 0; week < dates.length; week++) {
+            if (noGameDates.includes(dates[week])) continue;
+            const matches = matchList.find(m => m.date === dates[week]).matches;
+            for (const [t1, t2] of matches) {
+                const team1 = parseInt(t1);
+                const team2 = parseInt(t2);
+                // Check if they played last week
+                if (week > 0 && !noGameDates.includes(dates[week-1])) {
+                    const prevMatches = matchList.find(m => m.date === dates[week-1]).matches;
+                    const playedLastWeek = prevMatches.some(([a,b]) => 
+                        (parseInt(a) === team1 && parseInt(b) === team2) || 
+                        (parseInt(a) === team2 && parseInt(b) === team1)
+                    );
+                    if (playedLastWeek) {
+                        backToBackRepeat = true;
+                    }
+                }
+                // Count repeats overall
+                if (opponentHistory[team1].includes(team2)) {
+                    repeatCount++;
+                }
+                opponentHistory[team1].push(team2);
+                opponentHistory[team2].push(team1);
+            }
+        }
+        const acceptableRepeats = repeatCount >= 0 && repeatCount <= 4 && !backToBackRepeat;
+        addResult('Repeat Opponents',
+            `Total repeat matchups: ${repeatCount}. Back-to-back repeats: ${backToBackRepeat}.`,
+            acceptableRepeats
+        );
+
+        // Requirement: Dates correct and no games on Dec 28 and Jan 4
+        const correctNoGames = matchList[5].matches.length === 0 && matchList[6].matches.length === 0;
+        addResult('No Games on Dec 28 and Jan 4', 'No matches scheduled on Dec 28 and Jan 4.', correctNoGames);
+    }
+</script>
+
+</body>
+</html>

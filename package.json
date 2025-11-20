@@ -1,0 +1,21 @@
+{
+  "name": "schedulermark",
+  "version": "0.1.0",
+  "description": "Unsupervised LLM benchmark on a soccer scheduling task.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "benchmark": "bun run run-benchmark.ts"
+  },
+  "dependencies": {
+    "@openrouter/sdk": "^0.1.17",
+    "dotenv": "^16.4.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

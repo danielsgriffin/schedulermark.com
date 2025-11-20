@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Soccer Schedule</title>
+<style>
+.tablink {
+  float: left;
+  border: 1px solid #ccc;
+  background: #f1f1f1;
+  padding: 6px;
+  cursor: pointer;
+}
+.tablink.active {
+  background: #ccc;
+}
+.tabcontent {
+  display: none;
+  padding: 12px;
+  border: 1px solid #ccc;
+  clear: both;
+}
+table {
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 4px;
+}
+</style>
+</head>
+<body>
+
+<div>
+  <button class="tablink" onclick="openTab(event, 'matchlist')">Match List</button>
+  <button class="tablink" onclick="openTab(event, 'byes')">Byes Per Week</button>
+  <button class="tablink" onclick="openTab(event, 'summary')">Team Summary</button>
+</div>
+
+<div id="matchlist" class="tabcontent">
+  <h2>Match List</h2>
+  <table>
+    <tr><th>Date</th><th>Opponent 1</th><th>Opponent 2</th></tr>
+    <!-- Match Day 1: 11/23 -->
+    <tr><td>11/23</td><td>1</td><td>2</td></tr>
+    <tr><td></td><td>3</td><td>4</td></tr>
+    <tr><td></td><td>5</td><td>6</td></tr>
+    <tr><td></td><td>7</td><td>8</td></tr>
+    <tr><td></td><td>9</td><td>10</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <!-- Match Day 2: 11/30 -->
+    <tr><td>11/30</td><td>1</td><td>6</td></tr>
+    <tr><td></td><td>2</td><td>5</td></tr>
+    <tr><td></td><td>3</td><td>7</td></tr>
+    <tr><td></td><td>4</td><td>8</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <!-- Match Day 3: 12/7 -->
+    <tr><td>12/7</td><td>1</td><td>7</td></tr>
+    <tr><td></td><td>2</td><td>8</td></tr>
+    <tr><td></td><td>3</td><td>5</td></tr>
+    <tr><td></td><td>4</td><td>6</td></tr>
+    <tr><td></td><td>9</td><td>10</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <!-- Match Day 4: 12/14 -->
+    <tr><td>12/14</td><td>1</td><td>4</td></tr>
+    <tr><td></td><td>2</td><td>3</td></tr>
+    <tr><td></td><td>5</td><td>9</td></tr>
+    <tr><td></td><td>6</td><td>10</td></tr>
+    <tr><td></td><td>7</td><td>8</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <!-- Match Day 5: 12/21 -->
+    <tr><td>12/21</td><td>3</td><td>8</td></tr>
+    <tr><td></td><td>4</td><td>5</td></tr>
+    <tr><td></td><td>7</td><td>9</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <!-- Match Day 6: 1/11 -->
+    <tr><td>1/11</td><td>3</td><td>6</td></tr>
+    <tr><td></td><td>4</td><td>7</td></tr>
+    <tr><td></td><td>5</td><td>10</td></tr>
+    <tr><td></td><td>8</td><td>9</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <!-- Match Day 7: 1/18 -->
+    <tr><td>1/18</td><td>3</td><td>9</td></tr>
+    <tr><td></td><td>5</td><td>8</td></tr>
+    <tr><td></td><td>6</td><td>7</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <!-- Match Day 8: 1/25 -->
+    <tr><td>1/25</td><td>3</td><td>5</td></tr>
+    <tr><td></td><td>4</td><td>9</td></tr>
+    <tr><td></td><td>6</td><td>8</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <!-- Match Day 9: 2/1 -->
+    <tr><td>2/1</td><td>4</td><td>7</td></tr>
+    <tr><td></td><td>6</td><td>9</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+    <tr><td></td><td></td><td></td></tr>
+  </table>
+</div>
+
+<div id="byes" class="tabcontent">
+  <h2>Byes Per Week</h2>
+  <table>
+    <tr><th>Team</th><th># Byes</th><th>Dates of Byes</th></tr>
+    <tr><td>1</td><td>5</td><td>12/21, 1/11, 1/18, 1/25, 2/1</td></tr>
+    <tr><td>2</td><td>5</td><td>12/21, 1/11, 1/18, 1/25, 2/1</td></tr>
+    <tr><td>3</td><td>1</td><td>2/1</td></tr>
+    <tr><td>4</td><td>1</td><td>1/18</td></tr>
+    <tr><td>5</td><td>1</td><td>2/1</td></tr>
+    <tr><td>6</td><td>1</td><td>12/21</td></tr>
+    <tr><td>7</td><td>1</td><td>1/25</td></tr>
+    <tr><td>8</td><td>1</td><td>2/1</td></tr>
+    <tr><td>9</td><td>1</td><td>11/30</td></tr>
+    <tr><td>10</td><td>5</td><td>11/30, 12/21, 1/18, 1/25, 2/1</td></tr>
+  </table>
+</div>
+
+<div id="summary" class="tabcontent">
+  <h2>Team Summary</h2>
+  <table>
+    <tr><th>Team</th><th># Games Played</th><th>Opponents (in date order)</th></tr>
+    <tr><td>1</td><td>4</td><td>2, 6, 7, 4</td></tr>
+    <tr><td>2</td><td>4</td><td>1, 5, 8, 3</td></tr>
+    <tr><td>3</td><td>8</td><td>4, 7, 5, 2, 8, 6, 9, 5</td></tr>
+    <tr><td>4</td><td>8</td><td>3, 8, 6, 1, 5, 7, 9, 7</td></tr>
+    <tr><td>5</td><td>8</td><td>6, 2, 3, 9, 4, 10, 8, 3</td></tr>
+    <tr><td>6</td><td>8</td><td>5, 1, 4, 10, 3, 7, 8, 9</td></tr>
+    <tr><td>7</td><td>8</td><td>8, 3, 1, 8, 9, 4, 6, 4</td></tr>
+    <tr><td>8</td><td>8</td><td>7, 4, 2, 7, 3, 9, 5, 6</td></tr>
+    <tr><td>9</td><td>8</td><td>10, 10, 5, 7, 8, 3, 4, 6</td></tr>
+    <tr><td>10</td><td>4</td><td>9, 9, 6, 5</td></tr>
+  </table>
+</div>
+
+<div id="verification">
+  <h2>Interactive Verification Tool</h2>
+  <button onclick="startVerification()">Start Verification</button>
+  <div id="currentReq"></div>
+  <button id="nextBtn" style="display:none;" onclick="nextReq()">Next</button>
+</div>
+
+<script>
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Open default tab
+document.getElementsByClassName("tablink")[0].click();
+
+let requirements = [
+  {req: "There are 10 teams.", exp: "Teams are labeled 1 through 10 in all tabs."},
+  {req: "Exactly 8 games per team except Team 1, 2, and 10 have exactly 4.", exp: "See Team Summary tab for game counts."},
+  {req: "Team 1 and Team 2 play their games within the first 7 game weeks.", exp: "Their games are in weeks 1-4 (11/23 to 12/14), which are within the first 7 weeks (up to 1/18). See Match List and Team Summary."},
+  {req: "Team 10 has exactly 4 games played in any match week.", exp: "Team 10 plays 4 games in weeks 1,3,4,6 (11/23, 12/7, 12/14, 1/11)."},
+  {req: "Playing on Sundays, starting on November 23 and continuing until February 1 (no games on 12/28 and 1/4).", exp: "See dates in Match List tab: starts 11/23, ends 2/1, with games on 11/30, 12/7, 12/14, 12/21, 1/11, 1/18, 1/25, 2/1 (skipping 12/28 and 1/4)."},
+  {req: "No team plays more than once in the same week (strictly enforced).", exp: "Inspect each match day in Match List tab; no team appears in more than one match per day."},
+  {req: "Byes are okay.", exp: "See Byes Per Week tab; teams have byes as needed."},
+  {req: "Maximum of 8 games per Match Day.", exp: "In Match List tab, the maximum number of games in any day is 5 (e.g., 11/23), which is less than 8."},
+  {req: "Team 1 and Team 2 must play each other at least once.", exp: "They play each other on 11/23 (week 1). See Match List tab."},
+  {req: "No byes for Team 2 in the first two game weeks.", exp: "Team 2 plays on 11/23 and 11/30. See Match List and Byes Per Week tabs."},
+  {req: "Avoid repeat opponents but 2-4 instances of repeat opponents are okay.", exp: "There are exactly 4 instances of repeat opponents (pairs that play twice): 3-5, 4-7, 7-8, 9-10. See Team Summary tab for opponents."},
+  {req: "If there are repeat opponents, try not to have them play in back-to-back weeks.", exp: "None of the repeat pairs play in consecutive weeks: 3-5 (12/7 and 1/25), 4-7 (1/11 and 2/1), 7-8 (11/23 and 12/14), 9-10 (11/23 and 12/7). See Match List tab."},
+  {req: "If possible, give Team 6 a bye on 12/21 and 1/18.", exp: "Team 6 has a bye on 12/21. Giving byes on both would limit Team 6 to 7 games, violating the 8-game requirement, so only one is possible. See Byes Per Week tab."}
+];
+
+let currentIndex = -1;
+
+function startVerification() {
+  currentIndex = -1;
+  nextReq();
+}
+
+function nextReq() {
+  currentIndex++;
+  if (currentIndex >= requirements.length) {
+    document.getElementById('currentReq').innerHTML = "<h3>Verification complete!</h3><p>All requirements have been checked.</p>";
+    document.getElementById('nextBtn').style.display = 'none';
+    return;
+  }
+  let item = requirements[currentIndex];
+  document.getElementById('currentReq').innerHTML = `<h3>Requirement ${currentIndex + 1}:</h3><p>${item.req}</p><h4>Validation:</h4><p>${item.exp}</p>`;
+  document.getElementById('nextBtn').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
