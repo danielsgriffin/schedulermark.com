@@ -332,7 +332,7 @@
 
               // If you're now using /solution instead of solution.html, swap this href:
               // link.href = `/solution?solverSlug=${s}`;
-              link.href = `solution?solverSlug=${s}`;
+              link.href = `/solution?solverSlug=${s}`;
               link.textContent = model;
               link.className = "solution-pill";
               if (s === currentSlug) {
@@ -377,7 +377,7 @@
                 const s = slugify(model);
                 const li = document.createElement("li");
                 const a = document.createElement("a");
-                a.href = `solution?solverSlug=${s}`;
+                a.href = `/solution?solverSlug=${s}`;
                 a.textContent = model;
                 li.appendChild(a);
                 solutionsList.appendChild(li);
@@ -398,7 +398,8 @@
         }
 
         // Normal path: we have a slug
-        const solutionPath = `solutions/${slug}`;
+        // Use an absolute path and include the .html extension
+        const solutionPath = `/solutions/${slug}.html`;
 
         titleEl.textContent = `Solution for ${slug}`;
         metaEl.innerHTML = `solverSlug: <span class="model-id">${slug}</span>`;
