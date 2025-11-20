@@ -250,5 +250,40 @@
     "judgeModel": "moonshotai/kimi-k2-thinking",
     "verdict": "YES",
     "explanation": "The schedule meets every hard requirement from the request:\n\n- 10 teams are used.\n- Teams 1, 2 and 10 each play exactly 4 games; the other seven teams play 8 games each.\n- No team appears more than once in any week.\n- All match days are Sundays from Nov 23 to Feb 1, with no games on Dec 28 or Jan 4.\n- Each match day has ≤ 5 games (well under the 8‑game limit).\n- Teams 1 and 2 play each other (Week 1) and both play exactly 4 games, all within the first 7 weeks.\n- Team 2 has no bye in Weeks 1 or 2.\n- Team 10 plays exactly 4 games.\n- Only two opponent pairs repeat (6‑7 and 8‑9), which is within the allowed 2‑4 repeats, and none of the repeats occur in consecutive weeks.\n- The three required tabs are present: Match List (7 rows per week, columns for both opponents), Byes Per Week (count and dates), and Team Summary (team, games played, opponents in date order).\n\nThe only request not fully satisfied is the optional “give Team 6 a bye on 12/21 and 1/18.” Team 6 gets a bye on 12/21 (Week 5) but plays on 1/18 (Week 7). The verification tool flags this as a partial fulfilment, which is acceptable because the wording was “if possible.”\n\nAll mandatory constraints are satisfied, so the solution is correct."
+  },
+  {
+    "solverModel": "openai/gpt-5.1",
+    "solverSlug": "openai_gpt-5.1",
+    "judgeModel": "openai/gpt-5-pro",
+    "verdict": "ERROR",
+    "explanation": "Empty response"
+  },
+  {
+    "solverModel": "anthropic/claude-opus-4.1",
+    "solverSlug": "anthropic_claude-opus-4.1",
+    "judgeModel": "google/gemini-3-pro-preview",
+    "verdict": "NO",
+    "explanation": "The solution contains critical scheduling errors and data inconsistencies that violate the prompt's strict constraints:\n\n1.  **Double Booking:** In the \"Match List\" for Match Day 5 (Dec 21), **Team 9** is scheduled to play two separate games: one against Team 4 and another against Team 7. The prompt strictly states, \"No team plays more than once in the same week.\"\n\n2.  **Constraint Violation (Team 10):** The prompt requires Team 10 to have **exactly 4 games**. However, the \"Match List\" schedules Team 10 for **8 games** (appearing in weeks 1, 2, 3, 4, 5, 6, 7, and 8).\n\n3.  **Internal Inconsistency:** The solution is inconsistent. While the \"Match List\" displays 8 games for Team 10, the \"Team Summary\" tab falsely claims Team 10 played only 4 games. Furthermore, the provided verification tool falsely reports these constraints as passed.\n\n4.  **Repeat Opponents:** Team 9 and Team 10 play each other in three consecutive weeks (1, 2, and 3), and Team 8 and Team 10 play in back-to-back weeks (7 and 8), ignoring the instruction to avoid back-to-back repeats."
+  },
+  {
+    "solverModel": "anthropic/claude-opus-4.1",
+    "solverSlug": "anthropic_claude-opus-4.1",
+    "judgeModel": "anthropic/claude-sonnet-4.5",
+    "verdict": "NO",
+    "explanation": "The solution has multiple critical failures:\n\n1. **Team 10 game count violation**: Team 10 plays 4 games total but the requirement states Team 10 must have exactly 4 games \"played in any match week\" - meaning Team 10 should play in exactly 4 different match weeks, not just 4 games total. Team 10 actually plays in weeks 1, 2, 3, 4, 6, 7, and 8 (7 weeks), violating this requirement.\n\n2. **Repeat opponents exceeded**: The schedule shows far more than 2-4 instances of repeat opponents:\n- Team 5 vs Team 7: twice (Dec 7, Feb 1)\n- Team 8 vs Team 9: twice (Dec 14, Jan 11)\n- Team 8 vs Team 10: twice (Jan 18, Jan 25)\n- Team 9 vs Team 10: appears THREE times (Nov 23, Nov 30, Dec 7)\n\nThis is at least 4 repeat matchups with one triple-match, exceeding acceptable limits.\n\n3. **Team game counts incorrect**: Looking at the match list:\n- Team 4 only plays 7 games (not 8)\n- Team 5 plays 9 games (not 8)\n- Team 7 plays 9 games (not 8)\n\n4. **Back-to-back repeat opponents**: Team 9 vs Team 10 repeats in consecutive weeks (Nov 23, Nov 30, Dec 7), violating the requirement to avoid back-to-back repeats.\n\n5. **Team summary errors**: The Team Summary tab shows incorrect opponent lists that don't match the actual match schedule (e.g., Team 4 lists 7 opponents but should have 8).\n\nThe verification tool incorrectly marks all requirements as passed without actually analyzing the data."
+  },
+  {
+    "solverModel": "anthropic/claude-opus-4.1",
+    "solverSlug": "anthropic_claude-opus-4.1",
+    "judgeModel": "openai/gpt-5.1",
+    "verdict": "NO",
+    "explanation": "The schedule fails multiple hard constraints from the original request.\n\n1. “No team plays more than once in the same week (strictly enforced).”\n- Match Day 5 (Dec 21): Team 9 plays twice (vs Team 4 and vs Team 7).\n- Match Day 7 (Jan 18): Team 8 plays twice (vs Team 5 and vs Team 10).\n- Match Day 8 (Jan 25): Team 10 plays twice (vs Team 3 and vs Team 8).\n\n2. “Team 10 must have exactly 4 games played in any match week.”\nFrom the Match List, Team 10 appears on Match Days 1, 2, 3, 4, 5, 6, 7, and 8 (and in some days twice), far exceeding 4 games total.\n\n3. “Teams 3–9 each have 8 games” and “Team 1 and Team 2 must only have exactly 4 games.”\nWhile Teams 1 and 2 appear to have 4 games, several other teams have more or fewer than specified. The Team Summary table itself is inconsistent (e.g., Team 5 is listed with 8 games but 9 opponents).\n\n4. The “interactive verification tool” just blindly marks all checks as passed when “Verify All” is clicked; it does not actually compute or validate the schedule against the constraints.\n\nBecause of these direct violations, the solution does not correctly satisfy the original scheduling requirements."
+  },
+  {
+    "solverModel": "anthropic/claude-opus-4.1",
+    "solverSlug": "anthropic_claude-opus-4.1",
+    "judgeModel": "anthropic/claude-opus-4.1",
+    "verdict": "NO",
+    "explanation": "The solution has several critical errors:\n\n1. **Team 10 games requirement violated**: The prompt states \"Team 10 must have exactly 4 games played in any match week\" which appears to mean Team 10 should play 4 games in a single match week. However, the solution has Team 10 playing only one game per week across multiple weeks (weeks 1, 2, 3, 4), totaling 4 games overall. This misinterprets the requirement.\n\n2. **Team 10 actual game count wrong**: Looking at the schedule, Team 10 actually plays in weeks 1, 2, 3, 4, 5, 6, 7, and 8 (8 games total), not 4 as claimed in the Team Summary.\n\n3. **Duplicate matches in same week**: In Match Day 7, Team 10 appears to play Team 8 twice (listed in two separate rows), violating the \"no team plays more than once in the same week\" rule.\n\n4. **Team 9 scheduling error**: In Match Day 5, Team 9 is scheduled to play both Team 4 and Team 7, violating the same rule.\n\n5. **Data inconsistencies**: The Team Summary shows Team 10 playing \"Team 9, Team 9, Team 9, Team 2\" (only 4 games with Team 9 three times), but the Match List shows Team 10 playing many different opponents across 8 weeks.\n\nThe verification tool incorrectly marks all requirements as passing when multiple critical violations exist in the actual schedule data."
   }
 ]
