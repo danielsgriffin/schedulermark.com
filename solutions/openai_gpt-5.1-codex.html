@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sunday Soccer Schedule (Nov 23 – Feb 1)</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;margin:20px;background:#f9fafc;color:#222;}
+h1,h2{color:#0d3c61;}
+p{max-width:900px;line-height:1.4;}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:0.95rem;}
+th,td{border:1px solid #c9d4e3;padding:6px;text-align:center;}
+th{background:#e3eefc;}
+.date-cell{background:#f1f6ff;font-weight:600;}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.tab-btn{border:1px solid #0d3c61;background:#fff;color:#0d3c61;padding:8px 14px;border-radius:4px;cursor:pointer;transition:0.2s;}
+.tab-btn.active{background:#0d3c61;color:#fff;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+#verification{margin-top:40px;padding:20px;border:1px solid #c9d4e3;border-radius:8px;background:#fff;}
+.verifier-display{background:#f5f8ff;padding:15px;border-radius:6px;min-height:120px;}
+.req-title{font-weight:700;margin-bottom:6px;}
+.req-status{margin-top:10px;font-weight:600;}
+.verifier-controls{margin-top:15px;display:flex;flex-wrap:wrap;gap:10px;}
+.verifier-controls button{padding:8px 12px;border:1px solid #0d3c61;border-radius:4px;background:#fff;color:#0d3c61;cursor:pointer;}
+.verifier-controls button.primary{background:#0d3c61;color:#fff;}
+#progressSummary{margin-top:12px;font-weight:600;}
+#reqList{margin-top:16px;columns:2;padding-left:18px;}
+#reqList li{margin-bottom:6px;}
+.note{font-size:0.92rem;color:#444;}
+</style>
+</head>
+<body>
+<h1>Sunday Soccer Schedule (Nov 23 – Feb 1)</h1>
+<p>This schedule spans nine Sunday match days (Nov 23, Nov 30, Dec 7, Dec 14, Dec 21, Jan 11, Jan 18, Jan 25, Feb 1) with the dark Sundays of Dec 28 and Jan 4 left intentionally empty. Team 1, Team 2, and Team 10 are capped at four matches, all other clubs reach eight matches, and no team appears more than once on any given Sunday. Team 6 receives the requested Jan 18 bye (giving them eight total games) while still playing Dec 21 so the league-wide eight-game requirement can be met.</p>
+
+<div class="tabs">
+<button class="tab-btn active" data-target="tab-match">Match List</button>
+<button class="tab-btn" data-target="tab-byes">Byes Per Week</button>
+<button class="tab-btn" data-target="tab-summary">Team Summary</button>
+</div>
+
+<div id="tab-match" class="tab-content active">
+<table>
+<thead>
+<tr>
+<th>Date (Sunday)</th>
+<th>Slot</th>
+<th>Team A</th>
+<th>Team B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="date-cell" rowspan="7">Nov 23</td>
+<td>1</td><td>Team 1</td><td>Team 3</td>
+</tr>
+<tr><td>2</td><td>Team 2</td><td>Team 4</td></tr>
+<tr><td>3</td><td>Team 5</td><td>Team 6</td></tr>
+<tr><td>4</td><td>Team 7</td><td>Team 8</td></tr>
+<tr><td>5</td><td>Team 9</td><td>Team 10</td></tr>
+<tr><td>6</td><td></td><td></td></tr>
+<tr><td>7</td><td></td><td></td></tr>
+
+<tr>
+<td class="date-cell" rowspan="7">Nov 30</td>
+<td>1</td><td>Team 1</td><td>Team 2</td>
+</tr>
+<tr><td>2</td><td>Team 3</td><td>Team 5</td></tr>
+<tr><td>3</td><td>Team 4</td><td>Team 6</td></tr>
+<tr><td>4</td><td>Team 7</td><td>Team 9</td></tr>
+<tr><td>5</td><td>Team 8</td><td>Team 10</td></tr>
+<tr><td>6</td><td></td><td></td></tr>
+<tr><td>7</td><td></td><td></td></tr>
+
+<tr>
+<td class="date-cell" rowspan="7">Dec 7</td>
+<td>1</td><td>Team 1</td><td>Team 5</td>
+</tr>
+<tr><td>2</td><td>Team 2</td><td>Team 3</td></tr>
+<tr><td>3</td><td>Team 4</td><td>Team 8</td></tr>
+<tr><td>4</td><td>Team 6</td><td>Team 9</td></tr>
+<tr><td>5</td><td></td><td></td></tr>
+<tr><td>6</td><td></td><td></td></tr>
+<tr><td>7</td><td></td><td></td></tr>
+
+<tr>
+<td class="date-cell" rowspan="7">Dec 14</td>
+<td>1</td><td>Team 1</td><td>Team 6</td>
+</tr>
+<tr><td>2</td><td>Team 2</td><td>Team 5</td></tr>
+<tr><td>3</td><td>Team 3</td><td>Team 8</td></tr>
+<tr><td>4</td><td>Team 4</td><td>Team 9</td></tr>
+<tr><td>5</td><td>Team 7</td><td>Team 10</td></tr>
+<tr><td>6</td><td></td><td></td></tr>
+<tr><td>7</td><td></td><td></td></tr>
+
+<tr>
+<td class="date-cell" rowspan="7">Dec 21</td>
+<td>1</td><td>Team 3</td><td>Team 9</td>
+</tr>
+<tr><td>2</td><td>Team 4</td><td>Team 10</td></tr>
+<tr><td>3</td><td>Team 5</td><td>Team 7</td></tr>
+<tr><td>4</td><td>Team 6</td><td>Team 8</td></tr>
+<tr><td>5</td><td></td><td></td></tr>
+<tr><td>6</td><td></td><td></td></tr>
+<tr><td>7</td><td></td><td></td></tr>
+
+<tr>
+<td class="date-cell" rowspan="7">Jan 11</td>
+<td>1</td><td>Team 3</td><td>Team 4</td>
+</tr>
+<tr><td>2</td><td>Team 5</td><td>Team 8</td></tr>
+<tr><td>3</td><td>Team 6</td><td>Team 7</td></tr>
+<tr><td>4</td><td></td><td></td></tr>
+<tr><td>5</td><td></td><td></td></tr>
+<tr><td>6</td><td></td><td></td></tr>
+<tr><td>7</td><td></td><td></td></tr>
+
+<tr>
+<td class="date-cell" rowspan="7">Jan 18</td>
+<td>1</td><td>Team 3</td><td>Team 7</td>
+</tr>
+<tr><td>2</td><td>Team 4</td><td>Team 5</td></tr>
+<tr><td>3</td><td>Team 8</td><td>Team 9</td></tr>
+<tr><td>4</td><td></td><td></td></tr>
+<tr><td>5</td><td></td><td></td></tr>
+<tr><td>6</td><td></td><td></td></tr>
+<tr><td>7</td><td></td><td></td></tr>
+
+<tr>
+<td class="date-cell" rowspan="7">Jan 25</td>
+<td>1</td><td>Team 3</td><td>Team 6</td>
+</tr>
+<tr><td>2</td><td>Team 4</td><td>Team 7</td></tr>
+<tr><td>3</td><td>Team 5</td><td>Team 9</td></tr>
+<tr><td>4</td><td></td><td></td></tr>
+<tr><td>5</td><td></td><td></td></tr>
+<tr><td>6</td><td></td><td></td></tr>
+<tr><td>7</td><td></td><td></td></tr>
+
+<tr>
+<td class="date-cell" rowspan="7">Feb 1</td>
+<td>1</td><td>Team 6</td><td>Team 9</td>
+</tr>
+<tr><td>2</td><td>Team 7</td><td>Team 8</td></tr>
+<tr><td>3</td><td></td><td></td></tr>
+<tr><td>4</td><td></td><td></td></tr>
+<tr><td>5</td><td></td><td></td></tr>
+<tr><td>6</td><td></td><td></td></tr>
+<tr><td>7</td><td></td><td></td></tr>
+</tbody>
+</table>
+<p class="note">Dark Sundays (Dec 28 and Jan 4) are omitted entirely per instructions.</p>
+</div>
+
+<div id="tab-byes" class="tab-content">
+<table>
+<thead>
+<tr>
+<th>Team</th>
+<th># Byes</th>
+<th>Bye Dates (Sunday)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Team 1</td><td>5</td><td>Dec 21; Jan 11; Jan 18; Jan 25; Feb 1</td></tr>
+<tr><td>Team 2</td><td>5</td><td>Dec 21; Jan 11; Jan 18; Jan 25; Feb 1</td></tr>
+<tr><td>Team 3</td><td>1</td><td>Feb 1</td></tr>
+<tr><td>Team 4</td><td>1</td><td>Feb 1</td></tr>
+<tr><td>Team 5</td><td>1</td><td>Feb 1</td></tr>
+<tr><td>Team 6</td><td>1</td><td>Jan 18</td></tr>
+<tr><td>Team 7</td><td>1</td><td>Dec 7</td></tr>
+<tr><td>Team 8</td><td>1</td><td>Jan 25</td></tr>
+<tr><td>Team 9</td><td>1</td><td>Jan 11</td></tr>
+<tr><td>Team 10</td><td>5</td><td>Dec 7; Jan 11; Jan 18; Jan 25; Feb 1</td></tr>
+</tbody>
+</table>
+</div>
+
+<div id="tab-summary" class="tab-content">
+<table>
+<thead>
+<tr>
+<th>Team</th>
+<th># Games Played</th>
+<th>Opponents (chronological order)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Team 1</td><td>4</td><td>Team 3, Team 2, Team 5, Team 6</td></tr>
+<tr><td>Team 2</td><td>4</td><td>Team 4, Team 1, Team 3, Team 5</td></tr>
+<tr><td>Team 3</td><td>8</td><td>Team 1, Team 5, Team 2, Team 8, Team 9, Team 4, Team 7, Team 6</td></tr>
+<tr><td>Team 4</td><td>8</td><td>Team 2, Team 6, Team 8, Team 9, Team 10, Team 3, Team 5, Team 7</td></tr>
+<tr><td>Team 5</td><td>8</td><td>Team 6, Team 3, Team 1, Team 2, Team 7, Team 8, Team 4, Team 9</td></tr>
+<tr><td>Team 6</td><td>8</td><td>Team 5, Team 4, Team 9, Team 1, Team 8, Team 7, Team 3, Team 9</td></tr>
+<tr><td>Team 7</td><td>8</td><td>Team 8, Team 9, Team 10, Team 5, Team 6, Team 3, Team 4, Team 8</td></tr>
+<tr><td>Team 8</td><td>8</td><td>Team 7, Team 10, Team 4, Team 3, Team 6, Team 5, Team 9, Team 7</td></tr>
+<tr><td>Team 9</td><td>8</td><td>Team 10, Team 7, Team 6, Team 4, Team 3, Team 8, Team 5, Team 6</td></tr>
+<tr><td>Team 10</td><td>4</td><td>Team 9, Team 8, Team 7, Team 4</td></tr>
+</tbody>
+</table>
+</div>
+
+<section id="verification">
+<h2>Interactive Requirement Verification Tool</h2>
+<p>Use the controls below to review every requirement from the original brief. Mark each item as “Verified” or “Needs Work” to track compliance. The detail panel cites the relevant evidence from the tables above.</p>
+<div class="verifier-display">
+<div class="req-title" id="reqTitle"></div>
+<div id="reqDetail"></div>
+<div class="req-status">Status: <span id="reqStatus">Pending</span></div>
+</div>
+<div class="verifier-controls">
+<button id="prevReq">Previous</button>
+<button id="markVerified" class="primary">Mark Verified</button>
+<button id="markNeedsWork">Mark Needs Work</button>
+<button id="nextReq">Next</button>
+</div>
+<div id="progressSummary">Pending review...</div>
+<ul id="reqList"></ul>
+</section>
+
+<script>
+const tabs=document.querySelectorAll('.tab-btn');
+const contents=document.querySelectorAll('.tab-content');
+tabs.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    tabs.forEach(b=>b.classList.remove('active'));
+    contents.forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.target).classList.add('active');
+  });
+});
+
+const requirements=[
+  {
+    title:"Sunday cadence & blackout dates",
+    detail:"Nine Sunday match days are scheduled from Nov 23 through Feb 1, and there are no fixtures on the dark Sundays of Dec 28 or Jan 4.",
+    status:"Pending"
+  },
+  {
+    title:"Match day capacity",
+    detail:"Each Sunday hosts at most five matches (well under the eight-game cap).",
+    status:"Pending"
+  },
+  {
+    title:"No team plays twice in one week",
+    detail:"Every club appears in at most one matchup per Sunday in the Match List.",
+    status:"Pending"
+  },
+  {
+    title:"Team 1 requirement",
+    detail:"Team 1 plays exactly four games (Weeks Nov 23–Dec 14), all within the first seven weeks.",
+    status:"Pending"
+  },
+  {
+    title:"Team 2 requirement & early participation",
+    detail:"Team 2 also plays exactly four games by Dec 14 and appears on both Nov 23 and Nov 30, satisfying the no-bye rule for the first two game weeks.",
+    status:"Pending"
+  },
+  {
+    title:"Team 10 match cap",
+    detail:"Team 10 appears four times (Nov 23, Nov 30, Dec 14, Dec 21) and nowhere else.",
+    status:"Pending"
+  },
+  {
+    title:"Eight-game load for Teams 3-9 (excluding 10)",
+    detail:"Teams 3,4,5,6,7,8,9 each list eight opponents in the Team Summary tab.",
+    status:"Pending"
+  },
+  {
+    title:"Team 1 vs Team 2 meeting",
+    detail:"Week of Nov 30 features Team 1 vs Team 2.",
+    status:"Pending"
+  },
+  {
+    title:"Repeat-opponent guidance",
+    detail:"Only two pairs repeat (Team 6 vs Team 9 and Team 7 vs Team 8) and those rematches are separated by several weeks.",
+    status:"Pending"
+  },
+  {
+    title:"Team 6 bye preference",
+    detail:"Team 6 rests on Jan 18; adding a Dec 21 bye would have limited them to seven games, so they play on Dec 21 to keep the mandated eight.",
+    status:"Pending"
+  },
+  {
+    title:"Tab structure and data visibility",
+    detail:"Match List, Byes Per Week, and Team Summary tabs mimic an Excel workbook with the specified columns and blank rows.",
+    status:"Pending"
+  },
+  {
+    title:"Byes documented with counts and dates",
+    detail:"The Byes Per Week tab lists each team’s bye count plus the corresponding Sundays.",
+    status:"Pending"
+  }
+];
+
+let currentIndex=0;
+const titleEl=document.getElementById('reqTitle');
+const detailEl=document.getElementById('reqDetail');
+const statusEl=document.getElementById('reqStatus');
+const progressEl=document.getElementById('progressSummary');
+const listEl=document.getElementById('reqList');
+
+function renderRequirement(){
+  const req=requirements[currentIndex];
+  titleEl.textContent=`${currentIndex+1}. ${req.title}`;
+  detailEl.textContent=req.detail;
+  statusEl.textContent=req.status;
+  updateList();
+  updateProgress();
+}
+function updateList(){
+  listEl.innerHTML='';
+  requirements.forEach((req,idx)=>{
+    const li=document.createElement('li');
+    li.textContent=`${idx+1}. ${req.title} — ${req.status}`;
+    listEl.appendChild(li);
+  });
+}
+function updateProgress(){
+  const verified=requirements.filter(r=>r.status==="Verified").length;
+  const needsWork=requirements.filter(r=>r.status==="Needs Work").length;
+  const pending=requirements.length-verified-needsWork;
+  progressEl.textContent=`Verified: ${verified} | Needs Work: ${needsWork} | Pending: ${pending}`;
+}
+document.getElementById('prevReq').addEventListener('click',()=>{
+  currentIndex=(currentIndex-1+requirements.length)%requirements.length;
+  renderRequirement();
+});
+document.getElementById('nextReq').addEventListener('click',()=>{
+  currentIndex=(currentIndex+1)%requirements.length;
+  renderRequirement();
+});
+document.getElementById('markVerified').addEventListener('click',()=>{
+  requirements[currentIndex].status="Verified";
+  renderRequirement();
+});
+document.getElementById('markNeedsWork').addEventListener('click',()=>{
+  requirements[currentIndex].status="Needs Work";
+  renderRequirement();
+});
+renderRequirement();
+</script>
+</body>
+</html>

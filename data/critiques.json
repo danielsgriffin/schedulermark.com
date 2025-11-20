@@ -173,5 +173,82 @@
     "judgeModel": "qwen/qwen3-max",
     "verdict": "NO",
     "explanation": "The solution violates several key requirements. Most critically, **Team 10 plays 6 games**, not the required 4: it appears in matches on Nov 23, Nov 30, Dec 7, Dec 14, Jan 11, and Jan 25—six total. The Team Summary incorrectly lists only 4 opponents but duplicates \"Team 9\" twice and omits matches against Team 3, Team 4, Team 5, and Team 7 shown in the Match List.\n\nAdditionally, **Team 6 does not have a bye on Dec 21**: the schedule shows Team 6 playing Team 4 that day. Similarly, on Jan 18, Team 6 plays Team 7, violating the requested bye.\n\nThere are also **back-to-back repeat opponents**: Team 9 vs Team 10 occurs on Nov 23, Nov 30, and Dec 7—three consecutive weeks—which violates the rule against back-to-back repeats.\n\nFurthermore, **Team 1 and Team 2’s games extend beyond the first 7 game weeks** only in the sense that weeks 6 and 7 are off, but their four games correctly occur in weeks 1–5. However, the schedule includes **11 match days**, and Team 10’s extra games break the core constraint.\n\nThe verification script incorrectly reports compliance because it uses internal matchList data that doesn’t fully align with the visible tables (e.g., Team 10 appears in six matches in the Match List but the script may miscount due to data structure errors). Thus, the solution fails multiple explicit user requirements."
+  },
+  {
+    "solverModel": "google/gemini-3-pro-preview",
+    "solverSlug": "google_gemini-3-pro-preview",
+    "judgeModel": "anthropic/claude-opus-4.1",
+    "verdict": "NO",
+    "explanation": "The solution has critical errors in meeting the specified requirements:\n\n1. **Team 10 requirement violated**: The schedule shows Team 10 playing in weeks 1, 2, 6, and 8 (4 games total), which is correct for the count. However, the requirement states \"Team 10 must have exactly 4 games played in any match week\" - this appears to be asking for Team 10 to play 4 games in a single week, which is impossible since no team can play more than once per week.\n\n2. **Game count discrepancies**: While the verification claims teams 3-9 each play 8 games, manual counting reveals inconsistencies. For example, Team 3 appears in 8 weeks but Team 9 only appears in 7 games based on the schedule shown.\n\n3. **Team 6 bye on 1/18 not satisfied**: The requirement asks to give Team 6 a bye on both 12/21 AND 1/18 if possible. The schedule only gives Team 6 a bye on 12/21 (week 5) but not on 1/18 (week 7).\n\n4. **Verification tool misleading**: The verification tool reports all checks as passing when run, but the actual schedule data doesn't match these claims. The tool appears to be checking against intended logic rather than the actual finalSchedule data structure.\n\n5. **Date formatting inconsistency**: The dates in the schedule show years (2024/2025) but the original request implies all games should be in the same season from November to February."
+  },
+  {
+    "solverModel": "google/gemini-3-pro-preview",
+    "solverSlug": "google_gemini-3-pro-preview",
+    "judgeModel": "openai/gpt-5.1-codex",
+    "verdict": "NO",
+    "explanation": "The “Match List” tab requirement isn’t met. The prompt asked for “separate columns for each opponent as well as 7 rows for each Match Day (leave blank rows if necessary).” The provided table gives only one row per week and each match is shown in a single cell (“Team X vs Team Y”), so there are no separate columns for the two opponents and no seven-row block per match day. Because the structure of the Match List tab is explicitly specified and not followed, the submission fails to satisfy the prompt even though other scheduling constraints appear to be met."
+  },
+  {
+    "solverModel": "google/gemini-3-pro-preview",
+    "solverSlug": "google_gemini-3-pro-preview",
+    "judgeModel": "moonshotai/kimi-k2-thinking",
+    "verdict": "NO",
+    "explanation": "The schedule meets the core game‑count, date, bye, and repeat‑opponent constraints, but it fails several explicit formatting and output requirements:\n\n* The **Match List** does not have separate columns for each opponent (it shows “Team X vs Team Y” in a single column). It also never creates the required seven rows per match‑day, nor does it leave blank rows for unused slots.\n* The **Excel download** generates a single‐sheet HTML workbook, not a true three‑tab Excel file as requested. The three required tabs (“Match List”, “Byes Per Week”, “Team Summary”) are not present as separate worksheets.\n* The “if possible” request to give Team 6 a bye on 1/18 is not satisfied, and the solution does not demonstrate that a second bye for Team 6 is impossible under the constraints.\n\nBecause the output does not conform to the specified layout and Excel file structure, the solution is not correct."
+  },
+  {
+    "solverModel": "google/gemini-3-pro-preview",
+    "solverSlug": "google_gemini-3-pro-preview",
+    "judgeModel": "openai/gpt-5-pro",
+    "verdict": "ERROR",
+    "explanation": "Error: OpenRouter error for openai/gpt-5-pro: 402 Payment Required\n{\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 64000 tokens, but can only afford 50492. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit\",\"code\":402,\"metadata\":{\"provider_name\":null}},\"user_id\":\"user_2n89xFo6J9G10wQGqVpozecuDjp\"}"
+  },
+  {
+    "solverModel": "anthropic/claude-sonnet-4.5",
+    "solverSlug": "anthropic_claude-sonnet-4.5",
+    "judgeModel": "anthropic/claude-opus-4.1",
+    "verdict": "NO",
+    "explanation": "The solution has several critical failures in meeting the requirements:\n\n1. **Wrong Sunday dates**: The schedule uses Nov 24, 2024 as the first Sunday, but November 23, 2024 is actually a Saturday. The correct first Sunday should be November 24, 2024, but the prompt asks to start on November 23 (which is impossible for Sunday games).\n\n2. **Team 10 requirement violated**: The prompt states \"Team 10 must have exactly 4 games played in any match week\" which appears to mean Team 10 should play 4 games in a single match week (which is impossible since teams can only play once per week). The solution gives Team 10 exactly 4 games total, which may be a misinterpretation.\n\n3. **Date exclusions wrong**: The prompt says no games on 12/28 and 1/4, but the code excludes 12/29 and 1/5 instead (checking for '2024-12-29' and '2025-01-05').\n\n4. **Team 6 bye dates wrong**: The prompt requests Team 6 have byes on 12/21 and 1/18 if possible, but the code checks for 12/22 and 1/19.\n\n5. **Missing weeks**: The schedule only has 8 match days total, which seems insufficient for the November 23 to February 1 timeframe (should be about 10 weeks of Sundays minus the two excluded dates).\n\nThe fundamental date/calendar errors and misinterpretation of requirements make this solution incorrect."
+  },
+  {
+    "solverModel": "anthropic/claude-sonnet-4.5",
+    "solverSlug": "anthropic_claude-sonnet-4.5",
+    "judgeModel": "openai/gpt-5.1-codex",
+    "verdict": "NO",
+    "explanation": "Team counts blatantly violate the requested constraints. Team 1 plays only twice (vs. Team 2 on 11/24 and vs. Team 10 on 12/1) instead of the required four games, and Team 2 plays only three times (11/24 vs. Team 1, 12/1 vs. Team 3, 12/22 vs. Team 10). Conversely, Team 10 appears seven times (Match Days 1, 2, 4, 5, 6, 7, and 8) instead of being limited to four games. Because the core requirement on exact game counts for Teams 1, 2, and 10 is broken, the schedule is not compliant."
+  },
+  {
+    "solverModel": "anthropic/claude-sonnet-4.5",
+    "solverSlug": "anthropic_claude-sonnet-4.5",
+    "judgeModel": "moonshotai/kimi-k2-thinking",
+    "verdict": "NO",
+    "explanation": "The schedule fails the core per‑team game requirements. Team 1 plays only two matches (vs 2 and 10) and Team 2 plays only three matches (vs 1, 3 and 10), but each must play exactly four. Teams 3‑9 are scheduled for only seven games each instead of the required eight, while Team 10 plays eight games instead of the required four. Additionally, the request that “Team 10 must have exactly 4 games played in any match week” is interpreted as a total of four games for Team 10, which is not satisfied.\n\nOther constraints are met: the date range is correct (Sundays from Nov 24 to Jan 26, skipping Dec 28 and Jan 4), no team plays twice in the same week, the maximum of eight games per match day is respected, Team 1 vs Team 2 occurs, Team 2 has no byes in the first two weeks, and repeat opponents are within the allowed 2‑4 range (pairs 7‑8, 9‑10, 4‑7 each appear twice, never in consecutive weeks). The Excel‑style output and blank rows per match day are also correct.\n\nBecause the fundamental team‑game quotas are not satisfied, the solution does not fulfill the request."
+  },
+  {
+    "solverModel": "anthropic/claude-sonnet-4.5",
+    "solverSlug": "anthropic_claude-sonnet-4.5",
+    "judgeModel": "openai/gpt-5-pro",
+    "verdict": "ERROR",
+    "explanation": "Error: OpenRouter error for openai/gpt-5-pro: 402 Payment Required\n{\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 64000 tokens, but can only afford 48990. To increase, visit https://openrouter.ai/settings/keys and create a key with a higher total limit\",\"code\":402,\"metadata\":{\"provider_name\":null}},\"user_id\":\"user_2n89xFo6J9G10wQGqVpozecuDjp\"}"
+  },
+  {
+    "solverModel": "openai/gpt-5.1",
+    "solverSlug": "openai_gpt-5.1",
+    "judgeModel": "anthropic/claude-opus-4.1",
+    "verdict": "NO",
+    "explanation": "The solution has a critical error: Team 10 is supposed to have exactly 4 games total, but the requirement states \"Team 10 must have exactly 4 games played in any match week\" - meaning Team 10 should play 4 games in EACH match week they participate in, not 4 games total. This is a fundamental misinterpretation of the requirement.\n\nLooking at the schedule:\n- Team 10 only plays 4 games total (weeks 2, 3, 4, 5)\n- In each of those weeks, Team 10 plays only 1 game, not 4 games\n\nThis interpretation makes no sense because no team can play 4 games in a single week (that would violate the \"no team plays more than once in the same week\" constraint). The requirement is likely poorly worded or impossible to satisfy as stated.\n\nAdditionally, there are other issues:\n- The verification tool incorrectly validates Team 10's games as correct\n- Team 6 does not have a bye on Jan 18 (Week 7) as requested - they play against Team 8 that week\n- The schedule shows only 9 game weeks but should go through February 1\n\nThe solution attempts to satisfy most requirements but fundamentally misunderstands the Team 10 constraint and has errors in the Team 6 bye preferences."
+  },
+  {
+    "solverModel": "openai/gpt-5.1",
+    "solverSlug": "openai_gpt-5.1",
+    "judgeModel": "openai/gpt-5.1-codex",
+    "verdict": "YES",
+    "explanation": "All hard constraints in the user prompt are satisfied. Every Sunday from Nov 23 through Feb 1 (skipping 12/28 and 1/4) is scheduled, with no more than eight matches on any date and no team appearing twice in a week. Teams 1 and 2 each play exactly four games, all occurring by Week 6 (still within the first seven game weeks), and they face each other in Week 1. Team 10 appears in exactly four games (Weeks 2–5), as required, while Teams 3–9 each play exactly eight times. Team 2 plays in both of the first two weeks, preserving the “no early byes” rule. Repeat opponents occur only twice (6 vs 7 and 8 vs 9) and are separated by several weeks, satisfying the “2–4 repeats, not back-to-back” instruction. The Match List tab uses seven rows per match day with clear opponent columns; the Byes table lists counts and dates for every team; and the Team Summary tab has the required three-column structure with opponents ordered chronologically and dates omitted. The only unmet item is the optional preference for Team 6 to have byes on both 12/21 and 1/18; the schedule gives them the 12/21 bye but keeps them active on 1/18. Since this was explicitly framed as “if possible,” its partial fulfillment doesn’t violate the mandatory requirements."
+  },
+  {
+    "solverModel": "openai/gpt-5.1",
+    "solverSlug": "openai_gpt-5.1",
+    "judgeModel": "moonshotai/kimi-k2-thinking",
+    "verdict": "YES",
+    "explanation": "The schedule meets every hard requirement from the request:\n\n- 10 teams are used.\n- Teams 1, 2 and 10 each play exactly 4 games; the other seven teams play 8 games each.\n- No team appears more than once in any week.\n- All match days are Sundays from Nov 23 to Feb 1, with no games on Dec 28 or Jan 4.\n- Each match day has ≤ 5 games (well under the 8‑game limit).\n- Teams 1 and 2 play each other (Week 1) and both play exactly 4 games, all within the first 7 weeks.\n- Team 2 has no bye in Weeks 1 or 2.\n- Team 10 plays exactly 4 games.\n- Only two opponent pairs repeat (6‑7 and 8‑9), which is within the allowed 2‑4 repeats, and none of the repeats occur in consecutive weeks.\n- The three required tabs are present: Match List (7 rows per week, columns for both opponents), Byes Per Week (count and dates), and Team Summary (team, games played, opponents in date order).\n\nThe only request not fully satisfied is the optional “give Team 6 a bye on 12/21 and 1/18.” Team 6 gets a bye on 12/21 (Week 5) but plays on 1/18 (Week 7). The verification tool flags this as a partial fulfilment, which is acceptable because the wording was “if possible.”\n\nAll mandatory constraints are satisfied, so the solution is correct."
   }
 ]

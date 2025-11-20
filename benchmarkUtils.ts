@@ -14,11 +14,12 @@ if (!OPENROUTER_API_KEY) {
 }
 
 /**
- * Ensure the solutions/ and data/ directories exist.
+ * Ensure the solutions/, data/, and logs/ directories exist.
  */
 export async function ensureDirs() {
   await mkdir("solutions", { recursive: true });
   await mkdir("data", { recursive: true });
+  await mkdir("logs", { recursive: true });
 }
 
 /**
@@ -36,6 +37,8 @@ export async function fileExists(path: string): Promise<boolean> {
 /**
  * Call OpenRouter chat completions and return the string content.
  */
+// benchmarkUtils.ts
+
 type OpenRouterChatResponse = {
   choices?: Array<{
     message?: {
@@ -44,10 +47,17 @@ type OpenRouterChatResponse = {
   }>;
 };
 
+type CallOptions = {
+  maxTokens?: number;
+};
+
 export async function callOpenRouter(
   model: string,
-  prompt: string
+  prompt: string,
+  options: CallOptions = {}
 ): Promise<string> {
+  const maxTokens = options.maxTokens ?? 4096; // sensible default
+
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -58,6 +68,7 @@ export async function callOpenRouter(
     },
     body: JSON.stringify({
       model,
+      max_tokens: maxTokens,
       messages: [{ role: "user", content: prompt }],
     }),
   });
@@ -73,7 +84,6 @@ export async function callOpenRouter(
   const message = json.choices?.[0]?.message;
   let content = message?.content;
 
-  // Handle both string and array-of-parts content
   if (Array.isArray(content)) {
     content = content.map((part) => part.text ?? "").join("\n");
   }

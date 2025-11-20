@@ -4,8 +4,12 @@ export const MODELS = [
   "google/gemini-3-pro-preview",
   "anthropic/claude-sonnet-4.5",
   "openai/gpt-5.1",
+  "anthropic/claude-opus-4.1",
   "x-ai/grok-4",
   "qwen/qwen3-max",
+  "openai/gpt-5.1-codex",
+  "moonshotai/kimi-k2-thinking",
+  "openai/gpt-5-pro",
 ];
 
 export const ORIGINAL_REQUEST =

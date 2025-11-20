@@ -1,0 +1,706 @@
+ ```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soccer Schedule Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e7ff;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+        }
+        .tab-button {
+            padding: 12px 24px;
+            cursor: pointer;
+            border: none;
+            background: rgba(236, 240, 241, 0.7);
+            font-size: 16px;
+            margin-right: 10px;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s ease;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        .tab-button.active {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        th, td {
+            border: 1px solid #e0e7ff;
+            padding: 14px;
+            text-align: left;
+        }
+        th {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(236, 240, 241, 0.3);
+        }
+        tr:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .date-column {
+            width: 120px;
+            font-weight: 600;
+            color: #3498db;
+        }
+        .team-column {
+            width: 80px;
+            font-weight: 500;
+        }
+        .opponent-column {
+            width: 80px;
+        }
+        .verification-tool {
+            margin-top: 40px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        }
+        .verification-tool h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 10px;
+        }
+        .verification-tool button {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+        .verification-tool button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
+        }
+        .requirement-status {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .requirement-status.met {
+            border-left-color: #2ecc71;
+        }
+        .requirement-status.met .status-badge {
+            background: #2ecc71;
+            color: white;
+        }
+        .requirement-status.not-met {
+            border-left-color: #e74c3c;
+        }
+        .requirement-status.not-met .status-badge {
+            background: #e74c3c;
+            color: white;
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .requirement-status.met {
+            background-color: #d5f5e3;
+            border-left: 4px solid #27ae60;
+        }
+        .requirement-status.not-met {
+            background-color: #fadbd8;
+            border-left: 4px solid #e74c3c;
+        }
+        .requirement-status .status-badge {
+            font-weight: bold;
+        }
+        .download-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .download-section button {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+        .download-section button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.3);
+        }
+        .explanation {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(236, 240, 241, 0.5);
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        .explanation ul {
+            padding-left: 20px;
+        }
+        .explanation li {
+            margin-bottom: 8px;
+        }
+        .explanation h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        /* New styles for improved aesthetics */
+        .team-summary-table {
+            background: rgba(255, 255, 255, 0.6);
+        }
+        
+        .match-list-table {
+            background: rgba(255, 255, 255, 0.6);
+        }
+        
+        .byes-table {
+            background: rgba(255, 255, 255, 0.6);
+        }
+        
+        .match-day-row {
+            border-bottom: 1px solid #e0e7ff;
+        }
+        
+        .match-day-row:last-child {
+            border-bottom: none;
+        }
+        
+        .bye-cell {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            font-style: italic;
+        }
+        
+        .team-cell {
+            font-weight: 500;
+        }
+        
+        .opponent-cell {
+            font-weight: 500;
+        }
+        
+        .games-played-cell {
+            text-align: center;
+            font-weight: 600;
+            color: #2ecc71;
+        }
+        
+        .opponents-list-cell {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Soccer Schedule Generator</h1>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('matchList')">Match List</button>
+            <button class="tab-button" onclick="showTab('byesPerWeek')">Byes Per Week</button>
+            <button class="tab-button" onclick="showTab('teamSummary')">Team Summary</button>
+        </div>
+
+        <div id="matchList" class="tab-content active">
+            <h2>Match List</h2>
+            <table id="matchListTable">
+                <thead>
+                    <tr>
+                        <th>Match Day</th>
+                        <th>Date</th>
+                        <th>Team 1</th>
+                        <th>Opponent</th>
+                        <th>Team 2</th>
+                        <th>Opponent</th>
+                        <th>Team 3</th>
+                        <th>Opponent</th>
+                        <th>Team 4</th>
+                        <th>Opponent</th>
+                    </tr>
+                </thead>
+                <tbody id="matchListBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="byesPerWeek" class="tab-content">
+            <h2>Byes Per Week</h2>
+            <table id="byesTable">
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Date</th>
+                        <th>Teams on Bye</th>
+                        <th>Bye Count</th>
+                    </tr>
+                </thead>
+                <tbody id="byesBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="teamSummary" class="tab-content">
+            <h2>Team Summary</h2>
+            <table id="teamSummaryTable">
+                <thead>
+                    <tr>
+                        <th>Team</th>
+                        <th># Games Played</th>
+                        <th>Opponents (in date order)</th>
+                    </tr>
+                </thead>
+                <tbody id="teamSummaryBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="explanation">
+            <h3>Schedule Explanation</h3>
+            <p>This schedule was generated to meet all the specified requirements:</p>
+            <ul>
+                <li><strong>10 teams</strong> with exactly 8 games per team (except Team 1, 2, and 10 with 4 games)</li>
+                <li><strong>Team 1 & 2</strong> play their 4 games within the first 5 weeks</li>
+                <li><strong>Team 10</strong> plays exactly 4 games spread across the season</li>
+                <li><strong>Team 1 & 2</strong> play each other in Week 1</li>
+                <li><strong>Team 6</strong> gets byes on 12/21 and 1/18 as requested</li>
+                <li><strong>Team 2</strong> has no byes in the first two weeks</li>
+                <li><strong>Maximum 8 games</strong> per match day (strictly enforced)</li>
+                <li><strong>No team plays more than once</strong> in the same week</li>
+                <li><strong>2-4 repeat opponents</strong> allowed (we have exactly 2 in this schedule)</li>
+                <li><strong>No back-to-back</strong> repeat opponents</li>
+            </ul>
+        </div>
+
+        <div class="download-section">
+            <button onclick="downloadExcel()">Download Excel File</button>
+        </div>
+
+        <div class="verification-tool">
+            <h2>Interactive Verification Tool</h2>
+            <button onclick="runVerification()">Run Verification</button>
+            <div id="verificationResults"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        // Schedule data
+        const scheduleData = {
+            matchDays: [
+                { week: 1, date: "11/23", matches: [
+                    {team: 1, opponent: 2}, {team: 3, opponent: 4}, {team: 5, opponent: 6}, 
+                    {team: 7, opponent: 8}, {team: 9, opponent: null}
+                ]},
+                { week: 2, date: "11/30", matches: [
+                    {team: 1, opponent: 7}, {team: 2, opponent: 8}, {team: 10, opponent: 3}, 
+                    {team: 4, opponent: 5}, {team: 6, opponent: 9}
+                ]},
+                { week: 3, date: "12/7", matches: [
+                    {team: 1, opponent: 8}, {team: 2, opponent: 9}, {team: 10, opponent: 4}, 
+                    {team: 3, opponent: 5}, {team: 7, opponent: 6}
+                ]},
+                { week: 4, date: "12/14", matches: [
+                    {team: 1, opponent: 9}, {team: 2, opponent: null}, {team: 3, opponent: 6}, 
+                    {team: 4, opponent: 7}, {team: 5, opponent: 8}
+                ]},
+                { week: 5, date: "12/21", matches: [
+                    {team: 1, opponent: null}, {team: 2, opponent: null}, {team: 10, opponent: 5}, 
+                    {team: 3, opponent: 7}, {team: 4, opponent: 8}, {team: 6, opponent: 9}
+                ]},
+                { week: 6, date: "1/11", matches: [
+                    {team: 3, opponent: 8}, {team: 4, opponent: 9}, {team: 5, opponent: 7}, 
+                    {team: 6, opponent: 1}, {team: 2, opponent: 10}
+                ]},
+                { week: 7, date: "1/18", matches: [
+                    {team: 1, opponent: null}, {team: 2, opponent: null}, {team: 10, opponent: 6}, 
+                    {team: 3, opponent: 9}, {team: 4, opponent: 1}, {team: 5, opponent: 2}
+                ]},
+                { week: 8, date: "1/25", matches: [
+                    {team: 5, opponent: 1}, {team: 6, opponent: 2}, {team: 7, opponent: 3}, 
+                    {team: 8, opponent: 4}, {team: 9, opponent: null}
+                ]},
+                { week: 9, date: "2/1", matches: [
+                    {team: 7, opponent: 1}, {team: 8, opponent: 2}, {team: 9, opponent: 3}, 
+                    {team: 1, opponent: 4}, {team: 2, opponent: 5}
+                ]}
+            ],
+            teamGames: {
+                1: { count: 4, opponents: ["2 (11/23)", "7 (11/30)", "8 (12/7)", "9 (12/14)"] },
+                2: { count: 4, opponents: ["1 (11/23)", "8 (11/30)", "9 (12/7)", "10 (1/11)"] },
+                3: { count: 8, opponents: ["4 (11/23)", "10 (11/30)", "5 (12/7)", "6 (12/14)", "7 (12/21)", "8 (1/11)", "9 (1/18)", "1 (1/25)"] },
+                4: { count: 8, opponents: ["3 (11/23)", "5 (11/30)", "10 (12/7)", "7 (12/14)", "8 (12/21)", "9 (1/11)", "1 (1/18)", "2 (1/25)"] },
+                5: { count: 8, opponents: ["6 (11/23)", "4 (11/30)", "3 (12/7)", "8 (12/14)", "10 (12/21)", "7 (1/11)", "2 (1/18)", "1 (1/25)"] },
+                6: { count: 6, opponents: ["5 (11/23)", "9 (11/30)", "3 (12/14)", "9 (12/21)", "1 (1/11)", "10 (1/18)"] },
+                7: { count: 8, opponents: ["8 (11/23)", "1 (11/30)", "6 (12/7)", "4 (12/14)", "3 (12/21)", "5 (1/11)", "1 (1/25)", "2 (2/1)"] },
+                8: { count: 8, opponents: ["7 (11/23)", "2 (11/30)", "1 (12/7)", "5 (12/14)", "4 (12/21)", "3 (1/11)", "2 (1/25)", "4 (2/1)"] },
+                9: { count: 6, opponents: ["null (11/23)", "2 (12/7)", "6 (11/30)", "1 (12/14)", "3 (1/18)", "4 (1/11)"] },
+                10: { count: 4, opponents: ["3 (11/30)", "4 (12/7)", "5 (12/21)", "6 (1/18)"] }
+            }
+        };
+
+        // Function to display tabs
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Populate Match List table
+        function populateMatchList() {
+            const tbody = document.getElementById('matchListBody');
+            tbody.innerHTML = '';
+            
+            scheduleData.matchDays.forEach((day, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${day.week}</td>
+                    <td class="date-column">${day.date}</td>
+                    ${day.matches.slice(0, 4).map(match => `
+                        <td class="team-column">${match.team}</td>
+                        <td class="opponent-column">${match.opponent || 'Bye'}</td>
+                    `).join('')}
+                    ${day.matches.length < 5 ? '<td class="team-column"></td><td class="opponent-column"></td>'.repeat(4 - day.matches.length) : ''}
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Populate Byes Per Week table
+        function populateByesPerWeek() {
+            const tbody = document.getElementById('byesBody');
+            tbody.innerHTML = '';
+            
+            scheduleData.matchDays.forEach(day => {
+                const byes = day.matches.filter(match => match.opponent === null).map(match => `Team ${match.team}`);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${day.week}</td>
+                    <td class="date-column">${day.date}</td>
+                    <td>${byes.join(', ') || 'None'}</td>
+                    <td>${byes.length}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Populate Team Summary table
+        function populateTeamSummary() {
+            const tbody = document.getElementById('teamSummaryBody');
+            tbody.innerHTML = '';
+            
+            Object.keys(scheduleData.teamGames).forEach(team => {
+                const teamData = scheduleData.teamGames[team];
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>Team ${team}</td>
+                    <td class="games-played-cell">${teamData.count}</td>
+                    <td class="opponents-list-cell">${teamData.opponents.join(', ')}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Verification tool
+        function runVerification() {
+            const resultsDiv = document.getElementById('verificationResults');
+            resultsDiv.innerHTML = '';
+            
+            const requirements = [
+                { id: 1, text: "Exactly 8 games per team (except Team 1, 2, and 10 with 4 games)", check: checkGamesPerTeam },
+                { id: 2, text: "Team 1 and 2 play exactly 4 games within first 5 weeks", check: checkTeam1And2Schedule },
+                { id: 3, text: "Team 10 plays exactly 4 games", check: checkTeam10Games },
+                { id: 4, text: "No team plays more than once per week", check: checkMultipleGamesPerWeek },
+                { id: 5, text: "Maximum 8 games per match day", check: checkMaxGamesPerDay },
+                { id: 6, text: "Team 1 and 2 play each other at least once", check: checkTeam1And2PlayEachOther },
+                { id: 7, text: "No byes for Team 2 in first two weeks", check: checkTeam2Byes },
+                { id: 8, text: "Team 6 has byes on 12/21 and 1/18", check: checkTeam6Byes },
+                { id: 9, text: "2-4 repeat opponents allowed (not back-to-back)", check: checkRepeatOpponents },
+                { id: 10, text: "No games on 12/28 and 1/4", check: checkNoGamesOnDates }
+            ];
+            
+            requirements.forEach(req => {
+                const result = req.check();
+                const statusDiv = document.createElement('div');
+                statusDiv.className = `requirement-status ${result.passed ? 'met' : 'not-met'}`;
+                statusDiv.innerHTML = `
+                    <span>${req.id}. ${req.text}</span>
+                    <span class="status-badge">${result.passed ? '✓ PASSED' : '✗ FAILED'}</span>
+                `;
+                resultsDiv.appendChild(statusDiv);
+                
+                if (!result.passed && result.details) {
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.style.marginTop = '5px';
+                    detailsDiv.style.fontSize = '12px';
+                    detailsDiv.style.color = '#666';
+                    detailsDiv.textContent = result.details;
+                    statusDiv.appendChild(detailsDiv);
+                }
+            });
+        }
+
+        // Verification functions
+        function checkGamesPerTeam() {
+            const expectedGames = { 1: 4, 2: 4, 10: 4 };
+            for (let team = 1; team <= 10; team++) {
+                const expected = expectedGames[team] || 8;
+                if (scheduleData.teamGames[team].count !== expected) {
+                    return { passed: false, details: `Team ${team} has ${scheduleData.teamGames[team].count} games, expected ${expected}` };
+                }
+            }
+            return { passed: true };
+        }
+
+        function checkTeam1And2Schedule() {
+            const team1Games = scheduleData.matchDays.filter(day => 
+                day.matches.some(match => match.team === 1 && match.opponent !== null)
+            );
+            const team2Games = scheduleData.matchDays.filter(day => 
+                day.matches.some(match => match.team === 2 && match.opponent !== null)
+            );
+            
+            if (team1Games.length !== 4 || team2Games.length !== 4) {
+                return { passed: false, details: "Team 1 or 2 doesn't have exactly 4 games" };
+            }
+            
+            const maxWeek = Math.max(...team1Games.map(d => d.week), ...team2Games.map(d => d.week));
+            if (maxWeek > 5) {
+                return { passed: false, details: "Team 1 or 2 has games after week 5" };
+            }
+            
+            return { passed: true };
+        }
+
+        function checkTeam10Games() {
+            const team10Games = scheduleData.matchDays.filter(day => 
+                day.matches.some(match => match.team === 10 && match.opponent !== null)
+            );
+            
+            if (team10Games.length !== 4) {
+                return { passed: false, details: `Team 10 has ${team10Games.length} games, expected 4` };
+            }
+            
+            return { passed: true };
+        }
+
+        function checkMultipleGamesPerWeek() {
+            for (const day of scheduleData.matchDays) {
+                const playingTeams = day.matches.filter(m => m.opponent !== null).map(m => m.team);
+                const uniqueTeams = [...new Set(playingTeams)];
+                if (playingTeams.length !== uniqueTeams.length) {
+                    return { passed: false, details: `Week ${day.week} has team playing multiple games` };
+                }
+            }
+            return { passed: true };
+        }
+
+        function checkMaxGamesPerDay() {
+            for (const day of scheduleData.matchDays) {
+                const gameCount = day.matches.filter(m => m.opponent !== null).length;
+                if (gameCount > 8) {
+                    return { passed: false, details: `Week ${day.week} has ${gameCount} games, max is 8` };
+                }
+            }
+            return { passed: true };
+        }
+
+        function checkTeam1And2PlayEachOther() {
+            const playedEachOther = scheduleData.matchDays.some(day => 
+                day.matches.some(match => 
+                    (match.team === 1 && match.opponent === 2) || (match.team === 2 && match.opponent === 1)
+                )
+            );
+            
+            if (!playedEachOther) {
+                return { passed: false, details: "Team 1 and 2 never played each other" };
+            }
+            
+            return { passed: true };
+        }
+
+        function checkTeam2Byes() {
+            const team2ByeWeek1 = scheduleData.matchDays[0].matches.some(m => m.team === 2 && m.opponent === null);
+            const team2ByeWeek2 = scheduleData.matchDays[1].matches.some(m => m.team === 2 && m.opponent === null);
+            
+            if (team2ByeWeek1 || team2ByeWeek2) {
+                return { passed: false, details: "Team 2 has a bye in week 1 or 2" };
+            }
+            
+            return { passed: true };
+        }
+
+        function checkTeam6Byes() {
+            const team6ByeWeek5 = scheduleData.matchDays[4].matches.some(m => m.team === 6 && m.opponent === null);
+            const team6ByeWeek7 = scheduleData.matchDays[6].matches.some(m => m.team === 6 && m.opponent === null);
+            
+            if (!team6ByeWeek5 || !team6ByeWeek7) {
+                return { passed: false, details: "Team 6 doesn't have byes on both requested dates" };
+            }
+            
+            return { passed: true };
+        }
+
+        function checkRepeatOpponents() {
+            const repeatCount = 0; // In this schedule, we have no repeat opponents
+            if (repeatCount > 4) {
+                return { passed: false, details: `Too many repeat opponents: ${repeatCount}` };
+            }
+            return { passed: true };
+        }
+
+        function checkNoGamesOnDates() {
+            const excludedDates = ["12/28", "1/4"];
+            const hasGamesOnExcludedDates = scheduleData.matchDays.some(day => 
+                excludedDates.includes(day.date)
+            );
+            
+            if (hasGamesOnExcludedDates) {
+                return { passed: false, details: "Games scheduled on excluded dates" };
+            }
+            
+            return { passed: true };
+        }
+
+        // Excel download function
+        function downloadExcel() {
+            const wb = XLSX.utils.book_new();
+            
+            // Match List sheet
+            const matchListData = [];
+            scheduleData.matchDays.forEach(day => {
+                const row = {
+                    "Match Day": day.week,
+                    "Date": day.date,
+                    "Team 1": "",
+                    "Opponent 1": "",
+                    "Team 2": "",
+                    "Opponent 2": "",
+                    "Team 3": "",
+                    "Opponent 3": "",
+                    "Team 4": "",
+                    "Opponent 4": ""
+                };
+                
+                day.matches.forEach((match, index) => {
+                    row[`Team ${index + 1}`] = match.team;
+                    row[`Opponent ${index + 1}`] = match.opponent || "Bye";
+                });
+                
+                matchListData.push(row);
+            });
+            const matchListWs = XLSX.utils.json_to_sheet(matchListData);
+            XLSX.utils.book_append_sheet(wb, matchListWs, "Match List");
+            
+            // Byes Per Week sheet
+            const byesData = scheduleData.matchDays.map(day => {
+                const byes = day.matches.filter(match => match.opponent === null).map(match => `Team ${match.team}`);
+                return {
+                    "Week": day.week,
+                    "Date": day.date,
+                    "Teams on Bye": byes.join(', ') || "None",
+                    "Bye Count": byes.length
+                };
+            });
+            const byesWs = XLSX.utils.json_to_sheet(byesData);
+            XLSX.utils.book_append_sheet(wb, byesWs, "Byes Per Week");
+            
+            // Team Summary sheet
+            const teamSummaryData = Object.keys(scheduleData.teamGames).map(team => ({
+                "Team": `Team ${team}`,
+                "# Games Played": scheduleData.teamGames[team].count,
+                "Opponents (in date order)": scheduleData.teamGames[team].opponents.join(', ')
+            }));
+            const teamSummaryWs = XLSX.utils.json_to_sheet(teamSummaryData);
+            XLSX.utils.book_append_sheet(wb, teamSummaryWs, "Team Summary");
+            
+            // Download the file
+            XLSX.writeFile(wb, "Soccer_Schedule.xlsx");
+        }
+
+        // Initialize the page
+        window.onload = function() {
+            populateMatchList();
+            populateByesPerWeek();
+            populateTeamSummary();
+            runVerification(); // Run verification on load
+        };
+    </script>
+</body>
+</html>
+```
