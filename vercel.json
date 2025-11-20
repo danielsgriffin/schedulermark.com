@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/solution",
+      "destination": "/solution.html"
+    }
+  ]
+}
